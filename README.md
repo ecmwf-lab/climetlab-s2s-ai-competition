@@ -17,7 +17,7 @@ There are several ways to use the datasets:
 Data is available weekly every 7 days from 2020-01-02 (every Thurday).
 
 ## Direct download 
-### GRIB format :
+### GRIB format : 
 
 The list of GRIB files can be found here : 
 
@@ -62,8 +62,6 @@ import climetlab as cml
 ds = cml.load_dataset("s2s-ai-competition-reference-set", date="20200102", parameter=['2t','tp'])
 ds.to_xarray()
 ```
-
-
 
 # Training dataset
 
