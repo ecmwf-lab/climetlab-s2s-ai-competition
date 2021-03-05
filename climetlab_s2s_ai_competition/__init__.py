@@ -15,15 +15,6 @@ from climetlab import Dataset
 from climetlab.decorators import parameters
 
 
-def _makelist(x):
-    if isinstance(x, list):
-        return x
-    elif isinstance(x, tuple):
-        return list(x)
-    else:
-        return [x]
-
-
 URL = "https://storage.ecmwf.europeanweather.cloud"
 DATA = "s2s-ai-competition/data"
 PATTERN = (
@@ -31,7 +22,7 @@ PATTERN = (
 )
 ZARRPATTERN = "{url}/{data}/{dataset}/{version}/{format}/{fctype}-{date}.{extension}"
 # this is the default version of the dataset
-VERSION = "0.1.7"
+VERSION = "0.1.20"
 
 
 class S2sDataset(Dataset):
