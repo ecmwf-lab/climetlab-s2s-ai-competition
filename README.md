@@ -56,7 +56,7 @@ Example:
 ### Zarr format
 
 The zarr storage location include all the reference data. The following link is **not** to be open in a browser :
-https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/reference-set/1.0.0/zarr/ ```
+https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/reference-set/1.0.0/zarr/
 
 While accessing the zarr storage without climetlab may be possible, we recommend using climetlab with this plugin (climetlab-s2s-ai-competition)
 
