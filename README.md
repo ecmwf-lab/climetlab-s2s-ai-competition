@@ -56,14 +56,19 @@ Example:
 ### Zarr format
 
 The zarr storage location include all the reference data. The following link is **not** to be open in a browser :
-https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/reference-set/1.0.0/zarr/ ```
+https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/reference-set/1.0.0/zarr/
 
 While accessing the zarr storage without climetlab may be possible, we recommend using climetlab with this plugin (climetlab-s2s-ai-competition)
 
 
 ## Use the data with climetlab (supports grib, netcdf and zarr)
 
-See the [demo notebook](https://nbviewer.jupyter.org/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/demo.ipynb) ([src](https://github.com/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/demo.ipynb])). The climetlab python package allows easy access to the data with a few lines of code such as:
+See the demo notebooks here (https://github.com/ecmwf-lab/climetlab-s2s-ai-competition/notebooks) : 
+- Zarr [nbviewer](https://nbviewer.jupyter.org/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/notebooks/demo_zarr.ipynb) [colab](https://colab.research.google.com/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/notebooks/demo_zarr.ipynb)
+- netcdf [nbviewer](https://nbviewer.jupyter.org/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/notebooks/demo_netcdf.ipynb) [colab](https://colab.research.google.com/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/notebooks/demo_netcdf.ipynb)
+- grib [nbviewer](https://nbviewer.jupyter.org/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/notebooks/demo_grib.ipynb) [colab](https://colab.research.google.com/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/notebooks/demo_grib.ipynb)
+
+The climetlab python package allows easy access to the data with a few lines of code such as:
 ```
 !pip install climetlab climetlab_s2s_ai_competition
 import climetlab as cml
