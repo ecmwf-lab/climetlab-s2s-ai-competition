@@ -63,7 +63,12 @@ While accessing the zarr storage without climetlab may be possible, we recommend
 
 ## Use the data with climetlab (supports grib, netcdf and zarr)
 
-See the demo notebooks : (zarr)[https://nbviewer.jupyter.org/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/demo_zarr.ipynb) , (netcdf)[https://nbviewer.jupyter.org/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/demo_netcdf.ipynb), (grib)[https://nbviewer.jupyter.org/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/demo_grib.ipynb) ([src](https://github.com/ecmwf-lab/climetlab-s2s-ai-competition/notebooks)). The climetlab python package allows easy access to the data with a few lines of code such as:
+See the demo notebooks here (https://github.com/ecmwf-lab/climetlab-s2s-ai-competition/notebooks) : 
+- (zarr)[https://nbviewer.jupyter.org/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/demo_zarr.ipynb)
+- (netcdf)[https://nbviewer.jupyter.org/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/demo_netcdf.ipynb),
+- (grib)[https://nbviewer.jupyter.org/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/demo_grib.ipynb)
+
+The climetlab python package allows easy access to the data with a few lines of code such as:
 ```
 !pip install climetlab climetlab_s2s_ai_competition
 import climetlab as cml
