@@ -53,7 +53,15 @@ Example:
 
 ``` wget https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/reference-set/1.0.0/netcdf/tp-rt-20200102.nc (130M) ```
 
-## Use the data with climetlab (partial download)
+### Zarr format
+
+The zarr storage location include all the reference data. The following link is **not** to be open in a browser :
+https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/reference-set/1.0.0/zarr/ ```
+
+While accessing the zarr storage without climetlab may be possible, we recommend using climetlab with this plugin (climetlab-s2s-ai-competition)
+
+
+## Use the data with climetlab (supports grib, netcdf and zarr)
 
 See the [demo notebook](https://nbviewer.jupyter.org/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/demo.ipynb) ([src](https://github.com/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/demo.ipynb])). The climetlab python package allows easy access to the data with a few lines of code such as:
 ```
