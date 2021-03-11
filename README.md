@@ -25,7 +25,7 @@ https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/reference-se
 
 The URLs are constructed according to the following pattern:
 
-https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/reference-set/1.0.0/grib/{param}-rt-{date}.grib
+https:<span></span>//storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/reference-set/1.0.0/grib/{param}-rt-{date}.grib
 
 - {param} is "2t" for surface temperature at 2m, "tp" for total precipitation.
 - {date} is the date of retrieval following the YYYYMMDD format.
