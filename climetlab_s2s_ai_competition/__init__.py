@@ -8,7 +8,7 @@
 
 
 # note this version number has nothing to do with the version number of the dataset
-__version__ = "0.2.3"
+__version__ = "0.2.4"
 
 import climetlab as cml
 from climetlab import Dataset
