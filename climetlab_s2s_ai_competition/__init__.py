@@ -8,7 +8,7 @@
 
 
 # note this version number has nothing to do with the version number of the dataset
-__version__ = "0.2.4"
+__version__ = "0.3.4"
 
 import climetlab as cml
 from climetlab import Dataset
@@ -20,7 +20,7 @@ DATA = "s2s-ai-competition/data"
 PATTERN = (
     "{url}/{data}/{dataset}/{version}/{format}/{parameter}-{fctype}-{date}.{extension}"
 )
-ZARRPATTERN = "{url}/{data}/{dataset}/{version}/{format}/{fctype}-{date}.{extension}"
+ZARRPATTERN = "{url}/{data}/{format}/{parameter}.{extension}"
 # this is the default version of the dataset
 VERSION = "0.1.20"
 
@@ -95,7 +95,10 @@ class S2sDataset(Dataset):
         request = self._make_request(*args, **kwargs)
         request["format"] = "zarr"
         request["extension"] = "zarr"
-        request.pop("parameter")
+        request.pop("fctype")
+        request.pop("date")
+        request.pop("dataset")
+        request.pop("version")
 
         urls = Pattern(ZARRPATTERN).substitute(request)
 
