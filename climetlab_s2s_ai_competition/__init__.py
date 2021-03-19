@@ -17,12 +17,9 @@ from climetlab.decorators import parameters
 
 URL = "https://storage.ecmwf.europeanweather.cloud"
 DATA = "s2s-ai-competition/data"
-PATTERN = (
-    "{url}/{data}/{dataset}/{version}/{format}/{parameter}-{fctype}-{date}.{extension}"
-)
+PATTERN = "{url}/{data}/{dataset}/{version}/{format}/{fctype}/{origin}/{parameter}-{date}.{extension}"
 ZARRPATTERN = "{url}/{data}/{format}/{parameter}.{extension}"
 # this is the default version of the dataset
-VERSION = "0.1.20"
 
 
 class S2sDataset(Dataset):
@@ -32,6 +29,7 @@ class S2sDataset(Dataset):
     # TODO : upload a json file next to the dataset and read it
     documentation = "-"
     citation = "-"
+    VERSION = "0.1.36"  # will be modified by the datasets
 
     terms_of_use = (
         "By downloading data from this dataset, you agree to the their terms: "
@@ -50,6 +48,7 @@ class S2sDataset(Dataset):
         load = getattr(self, f"_load_{format}")
         return load(*args, **kwargs)
 
+    # latter on, we want also to support stacking decorators
     #    @parameters(parameter=("parameter-list", "mars"))
     #    @parameters(date=("date-list", "%Y%m%d"))
     @parameters(parameter=("parameter-list", "mars"), date=("date-list", "%Y%m%d"))
@@ -58,12 +57,15 @@ class S2sDataset(Dataset):
         date=None,
         parameter="tp",
         hindcast=False,
-        version=VERSION,
+        version=None,
     ):
+        if version is None:
+            version = self.VERSION
         request = dict(
             url=URL,
             data=DATA,
-            dataset=self.dataset,
+            dataset=self.dataset.replace("training", "train"),  # todo fix the data link
+            origin=self.origin,
             version=version,
             parameter=parameter,
             fctype="hc" if hindcast else "rt",
@@ -121,10 +123,10 @@ class S2sDataset(Dataset):
             # if we decide to keep it, rename it.
             # ds = ds.rename({'heightAboveGround':'height_above_ground'})
             ds = ds.squeeze("heightAboveGround")
-            ds = ds.drop("heightAboveGround")
+            ds = ds.drop_vars("heightAboveGround")
         if "surface" in list(ds.coords):
             ds = ds.squeeze("surface")
-            ds = ds.drop("surface")
+            ds = ds.drop_vars("surface")
         return ds
 
     def cfgrib_options(self, time_convention="withstep"):

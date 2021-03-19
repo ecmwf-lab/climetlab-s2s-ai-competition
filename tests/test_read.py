@@ -16,37 +16,92 @@ import climetlab as cml
 # import climetlab_s2s_ai_competition as addon
 
 
-def test_read_rt_tp_and_2t():
-    ds = cml.load_dataset("s2s-ai-competition", date="20200102", parameter=["tp", "2t"])
+def _generic_test_read(parameter, origin, format, date="20200102", hindcast=False):
+    ds = cml.load_dataset(
+        "s2s-ai-competition-training-set-" + origin,
+        date=date,
+        parameter=parameter,
+        format=format,
+        hindcast=hindcast,
+    )
     xds = ds.to_xarray()
     print(xds)
 
 
-def test_read_rt():
-    ds = cml.load_dataset("s2s-ai-competition", date="20200102")
-    xds = ds.to_xarray()
-    print(xds)
-
-    sst = xds.sel()
+def test_read_tp_ecmwf_grib__():
+    _generic_test_read(parameter="tp", origin="ecmwf", format="grib")
 
 
-# cml.plot_map(ds) # does not work
+def test_read_tp_ecmwf_netcdf():
+    _generic_test_read(parameter="tp", origin="ecmwf", format="netcdf")
 
 
-def test_read_hc():
-    ds = cml.load_dataset("s2s-ai-competition", date="20200102", hindcast=True)
-    xds = ds.to_xarray()
-    print(xds)
+def test_read_tp_cwao_grib__():
+    _generic_test_read(parameter="tp", origin="cwao", format="grib")
 
 
-def test_read_rt_2dates():
-    ds = cml.load_dataset("s2s-ai-competition", date=["20200102", "20200102"])
-    xds = ds.to_xarray()
-    print(xds)
+def test_read_tp_cwao_netcdf():
+    _generic_test_read(parameter="tp", origin="cwao", format="netcdf")
 
-    sst = xds.sel()
 
+def test_read_tp_kwbc_grib__():
+    _generic_test_read(parameter="tp", origin="kwbc", format="grib")
+
+
+def test_read_tp_kwbc_netcdf():
+    _generic_test_read(parameter="tp", origin="kwbc", format="netcdf")
+
+
+def test_read_tp_and_2t_ecmwf_netcdf():
+    _generic_test_read(parameter=["tp", "2t"], origin="ecmwf", format="grib")
+
+
+def test_read_tp_and_2t_ecmwf_grib__():
+    _generic_test_read(parameter=["tp", "2t"], origin="ecmwf", format="netcdf")
+
+
+def test_read_2t_ecmwf_grib_mars_convention():
+    _generic_test_read(parameter="2t", origin="ecmwf", format="grib")
+
+
+def test_read_2t_ecmwf_grib_cf_convention():
+    _generic_test_read(parameter="t2m", origin="ecmwf", format="grib")
+
+
+# def test_read_2dates_ecwmf(): _generic_test_read(parameter='t2m', origin='ecmwf', format='grib', date = ["20200102", "2020131"] )
+def test_read_2dates_cwao():
+    _generic_test_read(
+        parameter="t2m", origin="cwao", format="grib", date=["20200102", "20201231"]
+    )
+
+
+def test_read_2dates_kwbc():
+    _generic_test_read(
+        parameter="t2m", origin="kwbc", format="grib", date=["20200102", "20201231"]
+    )
+
+
+def test_read_hindcast_grib():
+    _generic_test_read(parameter="rsn", origin="ecmwf", format="grib")
+
+
+def test_read_hindcast_netcdf():
+    _generic_test_read(parameter="rsn", origin="ecmwf", format="netcdf")
+
+
+# def test_read_hc():
+#    ds = cml.load_dataset("s2s-ai-competition", date="20200102", hindcast=True)
+#    xds = ds.to_xarray()
+#    print(xds)
+#
+#
+# def test_read_rt_2dates():
+#    ds = cml.load_dataset("s2s-ai-competition", date=["20200102", "20200102"])
+#    xds = ds.to_xarray()
+#    print(xds)
+#
+#    sst = xds.sel()
+#
 
 if __name__ == "__main__":
-    test_read_rt()
-    # test_read_hc() # not uploaded yet
+    test_read_2t_ecmwf_grib_cf_convention()
