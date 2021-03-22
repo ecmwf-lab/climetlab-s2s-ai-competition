@@ -17,7 +17,7 @@ from . import S2sDataset
 
 class S2sTrainingSetEcmwf(S2sDataset):
     dataset = "training-set-ecmwf"
-    VERSION = "0.1.35"
+    VERSION = "0.1.36"
     origin = "ecmwf"
 
 

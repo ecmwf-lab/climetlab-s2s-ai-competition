@@ -30,7 +30,7 @@ for line in read(init_py).split("\n"):
 assert version
 
 
-install_requires = ["requests", "climetlab==0.3.5"]
+install_requires = ["requests", "climetlab==0.3.16"]
 extras_require = {"zarr": ["zarr", "s3fs"]}
 
 setuptools.setup(
@@ -50,7 +50,7 @@ setuptools.setup(
     entry_points={
         "climetlab.datasets": [
             #            "s2s-ai-competition-validation-set = climetlab_s2s_ai_competition.validation_set",
-            "s2s-ai-competition = climetlab_s2s_ai_competition.reference_set",
+            # "s2s-ai-competition-reference-set = climetlab_s2s_ai_competition.reference_set",
             #            "s2s-ai-competition-training-set = climetlab_s2s_ai_competition.training_set",
             "s2s-ai-competition-training-set-ecmwf = climetlab_s2s_ai_competition.training_set_ecmwf",
             "s2s-ai-competition-training-set-cwao = climetlab_s2s_ai_competition.training_set_cwao",

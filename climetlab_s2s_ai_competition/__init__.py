@@ -30,12 +30,12 @@ class S2sDataset(Dataset):
     documentation = "-"
     citation = "-"
     VERSION = "0.1.36"  # will be modified by the datasets
+    # origin = None # must be overloaded by the datasets
 
     terms_of_use = (
-        "By downloading data from this dataset, you agree to the their terms: "
-        "Attribution 4.0 International(CC BY 4.0). If you do not agree with such terms, "
-        "do not download the data. For more information, please visit https://www.ecmwf.int/en/terms-use "
-        "and https://apps.ecmwf.int/datasets/data/s2s/licence/."
+        "By downloading data from this dataset, you agree to the terms and conditions defined at  "
+        " https://apps.ecmwf.int/datasets/data/s2s/licence/ "
+        "If you do not agree with such terms, do not download the data. "
     )
 
     dataset = None
@@ -59,12 +59,17 @@ class S2sDataset(Dataset):
         hindcast=False,
         version=None,
     ):
+        if self.origin != "ecmwf":
+            self.dataset = (
+                self.dataset.replace("training", "train"),
+            )  # todo fix the data link
+
         if version is None:
             version = self.VERSION
         request = dict(
             url=URL,
             data=DATA,
-            dataset=self.dataset.replace("training", "train"),  # todo fix the data link
+            dataset=self.dataset,
             origin=self.origin,
             version=version,
             parameter=parameter,
