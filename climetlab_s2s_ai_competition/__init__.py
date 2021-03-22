@@ -33,8 +33,8 @@ class S2sDataset(Dataset):
     # origin = None # must be overloaded by the datasets
 
     terms_of_use = (
-        "By downloading data from this dataset, you agree to the terms and conditions defined at  "
-        " https://apps.ecmwf.int/datasets/data/s2s/licence/ "
+        "By downloading data from this dataset, you agree to the terms and conditions defined at "
+        "https://apps.ecmwf.int/datasets/data/s2s/licence/. "
         "If you do not agree with such terms, do not download the data. "
     )
 
