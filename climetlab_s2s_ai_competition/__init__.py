@@ -17,9 +17,14 @@ from climetlab.decorators import parameters
 
 URL = "https://storage.ecmwf.europeanweather.cloud"
 DATA = "s2s-ai-competition/data"
-PATTERN = "{url}/{data}/{dataset}/{version}/{format}/{fctype}/{origin}/{parameter}-{date}.{extension}"
-ZARRPATTERN = "{url}/{data}/{format}/{parameter}.{extension}"
-# this is the default version of the dataset
+
+PATTERN_GRIB = (
+    "{url}/{data}/{dataset}/{version}/grib/{fctype}/{origin}/{parameter}-{date}.grib"
+)
+PATTERN_NCDF = (
+    "{url}/{data}/{dataset}/{version}/netcdf/{fctype}/{origin}/{parameter}-{date}.nc"
+)
+PATTERN_ZARR = "{url}/{data}/zarr/{parameter}.zarr"
 
 
 class S2sDataset(Dataset):
@@ -29,8 +34,6 @@ class S2sDataset(Dataset):
     # TODO : upload a json file next to the dataset and read it
     documentation = "-"
     citation = "-"
-    VERSION = "0.1.36"  # will be modified by the datasets
-    # origin = None # must be overloaded by the datasets
 
     terms_of_use = (
         "By downloading data from this dataset, you agree to the terms and conditions defined at "
@@ -40,13 +43,10 @@ class S2sDataset(Dataset):
 
     dataset = None
 
-    def __init__(self):
-        pass
-
-    def _load(self, *args, **kwargs):
-        format = kwargs.pop("format", "grib")
-        load = getattr(self, f"_load_{format}")
-        return load(*args, **kwargs)
+    def __init__(self, origin, version, dataset):
+        self.origin = origin
+        self.version = version
+        self.dataset = dataset
 
     # latter on, we want also to support stacking decorators
     #    @parameters(parameter=("parameter-list", "mars"))
@@ -54,62 +54,21 @@ class S2sDataset(Dataset):
     @parameters(parameter=("parameter-list", "mars"), date=("date-list", "%Y%m%d"))
     def _make_request(
         self,
-        date=None,
+        date='2020-01-02',
         parameter="tp",
         hindcast=False,
-        version=None,
     ):
-        if self.origin != "ecmwf":
-            self.dataset = (
-                self.dataset.replace("training", "train"),
-            )  # todo fix the data link
-
-        if version is None:
-            version = self.VERSION
         request = dict(
             url=URL,
             data=DATA,
             dataset=self.dataset,
             origin=self.origin,
-            version=version,
+            version=self.version,
             parameter=parameter,
             fctype="hc" if hindcast else "rt",
             date=date,
         )
         return request
-
-    def _load_grib(self, *args, **kwargs):
-        request = self._make_request(*args, **kwargs)
-        request["format"] = "grib"
-        request["extension"] = "grib"
-        self.source = cml.load_source("url-pattern", PATTERN, request)
-
-    #        for s in self.source.sources:
-    #            print(s)
-    #            print(s.dataset)
-    #            s.dataset = self
-
-    def _load_netcdf(self, *args, **kwargs):
-        request = self._make_request(*args, **kwargs)
-        request["format"] = "netcdf"
-        request["extension"] = "nc"
-        self.source = cml.load_source("url-pattern", PATTERN, request)
-
-    def _load_zarr(self, *args, **kwargs):
-
-        from climetlab.utils.patterns import Pattern
-
-        request = self._make_request(*args, **kwargs)
-        request["format"] = "zarr"
-        request["extension"] = "zarr"
-        request.pop("fctype")
-        request.pop("date")
-        request.pop("dataset")
-        request.pop("version")
-
-        urls = Pattern(ZARRPATTERN).substitute(request)
-
-        self.source = cml.load_source("zarr-s3", urls)
 
     def post_xarray_open_dataset_hook(self, ds):
         # we may want also to add this too :
@@ -120,22 +79,35 @@ class S2sDataset(Dataset):
 
         if "number" in list(ds.coords):
             ds = ds.rename({"number": "realization"})
+
         if "time" in list(ds.coords):
             ds = ds.rename({"time": "forecast_time"})
+
         if "valid_time" in list(ds.coords):
             ds = ds.rename({"valid_time": "time"})
+
         if "heightAboveGround" in list(ds.coords):
             # if we decide to keep it, rename it.
             # ds = ds.rename({'heightAboveGround':'height_above_ground'})
             ds = ds.squeeze("heightAboveGround")
             ds = ds.drop_vars("heightAboveGround")
+
         if "surface" in list(ds.coords):
             ds = ds.squeeze("surface")
             ds = ds.drop_vars("surface")
+
         return ds
+
+
+class S2sDatasetGRIB(S2sDataset):
+    def _load(self, *args, **kwargs):
+        request = self._make_request(*args, **kwargs)
+        self.source = cml.load_source("url-pattern", PATTERN_GRIB, request)
 
     def cfgrib_options(self, time_convention="withstep"):
         params = {}
+        assert time_convention in ("withstep", "nostep")
+
         if time_convention == "withstep":
             time_dims = ["time", "step"]  # this is the default of engine='cfgrib'
             chunk_sizes_in = {
@@ -146,7 +118,7 @@ class S2sDataset(Dataset):
                 "step": 1,
             }
 
-        elif time_convention == "nostep":
+        if time_convention == "nostep":
             time_dims = ["time", "valid_time"]
             chunk_sizes_in = {
                 "time": 1,
@@ -156,11 +128,31 @@ class S2sDataset(Dataset):
                 "valid_time": 1,
             }
 
-        else:
-            raise Exception()
-
-        # params['engine'] = 'cfgrib'
         params["chunks"] = chunk_sizes_in
         params["backend_kwargs"] = dict(squeeze=False, time_dims=time_dims)
 
         return params
+
+
+class S2sDatasetNETCDF(S2sDataset):
+    def _load(self, *args, **kwargs):
+        request = self._make_request(*args, **kwargs)
+        self.source = cml.load_source("url-pattern", PATTERN_NCDF, request)
+
+
+class S2sDatasetZARR(S2sDataset):
+    def _load(self, *args, **kwargs):
+
+        from climetlab.utils.patterns import Pattern
+
+        request = self._make_request(*args, **kwargs)
+        urls = Pattern(PATTERN_ZARR).substitute(request)
+
+        self.source = cml.load_source("zarr-s3", urls)
+
+
+CLASSES = {"grib": S2sDatasetGRIB, "netcdf": S2sDatasetNETCDF, "zarr": S2sDatasetZARR}
+
+
+def dataset(format="grib", origin="ecmf", version="0.1.36", dataset='reference'):
+    return CLASSES[format](origin, version, dataset)
