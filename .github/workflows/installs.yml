@@ -40,7 +40,7 @@ jobs:
     - name: Set up conda environment
       run: |
           conda create --name climetlab_s2s_ai_competition-dev python=3.7 xarray
-          source activate climetlab_s2s_ai_competition-dev
+          conda activate climetlab_s2s_ai_competition-dev
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
