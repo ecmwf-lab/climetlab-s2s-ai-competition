@@ -13,7 +13,8 @@ import climetlab as cml
 
 
 # def test_read_zarr():
-#    ds = cml.load_dataset("s2s-ai-competition-training-set-cwao",  format="zarr")
+#    ds = cml.load_dataset("s2s-ai-competition-training-set"
+#                          origin="cwao",  format="zarr")
 #    xds = ds.to_xarray()
 #    print(xds)
 
