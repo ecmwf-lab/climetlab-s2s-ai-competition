@@ -54,7 +54,7 @@ class S2sDataset(Dataset):
     @parameters(parameter=("parameter-list", "mars"), date=("date-list", "%Y%m%d"))
     def _make_request(
         self,
-        date="2020-01-02",
+        date="20200102",
         parameter="tp",
         hindcast=False,
     ):
