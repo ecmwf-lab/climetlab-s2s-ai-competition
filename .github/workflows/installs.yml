@@ -30,9 +30,9 @@ jobs_conda:
       with:
         python-version: 3.7
     - name: Set up conda
-        uses: conda-incubator/setup-miniconda@v2
+      uses: conda-incubator/setup-miniconda@v2
     - name: Set up conda environment
-        run: |
+      run: |
           conda create --name climetlab_s2s_ai_competition-dev python=3.7 xarray
     - name: Install dependencies
       run: |
