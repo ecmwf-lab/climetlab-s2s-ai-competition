@@ -22,6 +22,15 @@ PATTERN_GRIB = "{url}/{data}/{dataset}-{origin}/{version}/grib/{fctype}/{origin}
 PATTERN_NCDF = "{url}/{data}/{dataset}-{origin}/{version}/netcdf/{fctype}/{origin}/{parameter}-{date}.nc"
 PATTERN_ZARR = "{url}/{data}/zarr/{parameter}.zarr"
 
+GLOB_ORIGIN = {
+    "ecmwf": "ecmwf",
+    "ecmf": "ecmwf",
+    "cwao": "cwao",
+    "eccc": "cwao",
+    "kwbc": "kwbc",
+    "ncep": "kwbc",
+}
+
 
 class S2sDataset(Dataset):
     name = None
@@ -40,6 +49,7 @@ class S2sDataset(Dataset):
     dataset = None
 
     def __init__(self, origin, version, dataset):
+        origin = GLOB_ORIGIN[origin.lower()]
         self.origin = origin
         self.version = version
         self.dataset = dataset
@@ -157,8 +167,3 @@ def dataset(
     format="grib", origin="ecmf", version="0.1.36", dataset="training-set", **kwargs
 ):
     return CLASSES[format](origin, version, dataset, **kwargs)
-
-
-# TODO : make this work
-# def dataset_training_set(format="grib", origin="ecmf", version="0.1.36", *args, **kwargs):
-#    return CLASSES[format](origin, version, *args, dataset='training-set', **kwargs)
