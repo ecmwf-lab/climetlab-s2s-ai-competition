@@ -10,6 +10,7 @@
 #
 
 import climetlab as cml
+import pytest
 
 # import climetlab_s2s_ai_competition
 # from climetlab_s2s_ai_competition.source import S2sReferenceDataSource
@@ -18,7 +19,8 @@ import climetlab as cml
 
 def _generic_test_read(parameter, origin, format, date="20200102", hindcast=False):
     ds = cml.load_dataset(
-        "s2s-ai-competition-training-set-" + origin,
+        "s2s-ai-competition-training-set",
+        origin=origin,
         date=date,
         parameter=parameter,
         format=format,
@@ -104,4 +106,5 @@ def test_read_hindcast_netcdf():
 #
 
 if __name__ == "__main__":
-    test_read_2t_ecmwf_grib_cf_convention()
+    # test_read_2t_ecmwf_grib_cf_convention()
+    test_read_tp_ecmwf_grib__()

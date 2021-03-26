@@ -49,7 +49,10 @@ setuptools.setup(
     zip_safe=True,
     entry_points={
         "climetlab.datasets": [
-            "s2s-ai-competition = climetlab_s2s_ai_competition",
+            "s2s-ai-competition-training-set = climetlab_s2s_ai_competition.training_set",
+            "s2s-ai-competition-reference-set = climetlab_s2s_ai_competition.reference_set",
+            # TODO : make this work (dataset_training_set is a function)
+            # "s2s-ai-competition-training-set = climetlab_s2s_ai_competition.dataset_training_set",
         ]
     },
     keywords="meteorology",

@@ -8,7 +8,7 @@
 
 
 # note this version number has nothing to do with the version number of the dataset
-__version__ = "0.3.6"
+__version__ = "0.3.7"
 
 import climetlab as cml
 from climetlab import Dataset
@@ -18,12 +18,8 @@ from climetlab.decorators import parameters
 URL = "https://storage.ecmwf.europeanweather.cloud"
 DATA = "s2s-ai-competition/data"
 
-PATTERN_GRIB = (
-    "{url}/{data}/{dataset}/{version}/grib/{fctype}/{origin}/{parameter}-{date}.grib"
-)
-PATTERN_NCDF = (
-    "{url}/{data}/{dataset}/{version}/netcdf/{fctype}/{origin}/{parameter}-{date}.nc"
-)
+PATTERN_GRIB = "{url}/{data}/{dataset}-{origin}/{version}/grib/{fctype}/{origin}/{parameter}-{date}.grib"
+PATTERN_NCDF = "{url}/{data}/{dataset}-{origin}/{version}/netcdf/{fctype}/{origin}/{parameter}-{date}.nc"
 PATTERN_ZARR = "{url}/{data}/zarr/{parameter}.zarr"
 
 
@@ -157,5 +153,12 @@ class S2sDatasetZARR(S2sDataset):
 CLASSES = {"grib": S2sDatasetGRIB, "netcdf": S2sDatasetNETCDF, "zarr": S2sDatasetZARR}
 
 
-def dataset(format="grib", origin="ecmf", version="0.1.36", dataset="reference"):
-    return CLASSES[format](origin, version, dataset)
+def dataset(
+    format="grib", origin="ecmf", version="0.1.36", dataset="training-set", **kwargs
+):
+    return CLASSES[format](origin, version, dataset, **kwargs)
+
+
+# TODO : make this work
+# def dataset_training_set(format="grib", origin="ecmf", version="0.1.36", *args, **kwargs):
+#    return CLASSES[format](origin, version, *args, dataset='training-set', **kwargs)
