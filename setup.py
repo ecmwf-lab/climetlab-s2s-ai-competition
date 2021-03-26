@@ -30,7 +30,7 @@ for line in read(init_py).split("\n"):
 assert version
 
 
-install_requires = ["requests", "climetlab>=0.3.20"]
+install_requires = ["requests", "climetlab>=0.4.0"]
 extras_require = {"zarr": ["zarr", "s3fs"]}
 
 setuptools.setup(

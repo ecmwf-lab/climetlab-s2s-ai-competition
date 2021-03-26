@@ -54,7 +54,7 @@ class S2sDataset(Dataset):
     @parameters(parameter=("parameter-list", "mars"), date=("date-list", "%Y%m%d"))
     def _make_request(
         self,
-        date='2020-01-02',
+        date="2020-01-02",
         parameter="tp",
         hindcast=False,
     ):
@@ -100,7 +100,8 @@ class S2sDataset(Dataset):
 
 
 class S2sDatasetGRIB(S2sDataset):
-    def _load(self, *args, **kwargs):
+    def __init__(self, origin, version, dataset, *args, **kwargs):
+        super().__init__(origin, version, dataset)
         request = self._make_request(*args, **kwargs)
         self.source = cml.load_source("url-pattern", PATTERN_GRIB, request)
 
@@ -135,13 +136,15 @@ class S2sDatasetGRIB(S2sDataset):
 
 
 class S2sDatasetNETCDF(S2sDataset):
-    def _load(self, *args, **kwargs):
+    def __init__(self, origin, version, dataset, *args, **kwargs):
+        super().__init__(origin, version, dataset)
         request = self._make_request(*args, **kwargs)
         self.source = cml.load_source("url-pattern", PATTERN_NCDF, request)
 
 
 class S2sDatasetZARR(S2sDataset):
-    def _load(self, *args, **kwargs):
+    def __init__(self, origin, version, dataset, *args, **kwargs):
+        super().__init__(origin, version, dataset)
 
         from climetlab.utils.patterns import Pattern
 
@@ -154,5 +157,5 @@ class S2sDatasetZARR(S2sDataset):
 CLASSES = {"grib": S2sDatasetGRIB, "netcdf": S2sDatasetNETCDF, "zarr": S2sDatasetZARR}
 
 
-def dataset(format="grib", origin="ecmf", version="0.1.36", dataset='reference'):
+def dataset(format="grib", origin="ecmf", version="0.1.36", dataset="reference"):
     return CLASSES[format](origin, version, dataset)
