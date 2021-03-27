@@ -27,4 +27,3 @@ jobs:
         pip install -e .
     - name: import climetlab_s2s_ai_competition
       run: |
-        which python
