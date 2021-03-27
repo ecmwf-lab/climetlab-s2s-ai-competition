@@ -22,7 +22,6 @@ jobs:
     - name: import climetlab_s2s_ai_competition
       run: |
         python -c "import climetlab_s2s_ai_competition"
-      run: |
           conda create --name climetlab_s2s_ai_competition-dev python=3.7 xarray
           conda activate climetlab_s2s_ai_competition-dev
     - name: Install dependencies
