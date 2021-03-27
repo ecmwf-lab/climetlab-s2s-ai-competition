@@ -22,22 +22,6 @@ jobs:
     - name: import climetlab_s2s_ai_competition
       run: |
         python -c "import climetlab_s2s_ai_competition"
-
-  install-conda-climetlab_s2s_ai_competition:
-    name: install-conda-climetlab_s2s_ai_competition
-    runs-on: "ubuntu-latest"
-    defaults:
-      run:
-        shell: bash -l {0}
-    steps:
-    - uses: actions/checkout@v2
-    - name: Setup python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.7
-    - name: Set up conda
-      uses: conda-incubator/setup-miniconda@v2
-    - name: Set up conda environment
       run: |
           conda create --name climetlab_s2s_ai_competition-dev python=3.7 xarray
           conda activate climetlab_s2s_ai_competition-dev
