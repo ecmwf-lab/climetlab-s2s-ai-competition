@@ -22,4 +22,4 @@ jobs:
       - name: Run tests
         run: |
           pip install pytest pytest-xdist 
-          python -m pytest
+          python -m pytest -n 4 --durations=10
