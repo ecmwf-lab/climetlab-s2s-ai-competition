@@ -22,4 +22,3 @@ jobs:
     - name: import climetlab_s2s_ai_competition
       run: |
         python -c "import climetlab_s2s_ai_competition"
-        python -m pip install --upgrade pip
