@@ -8,7 +8,7 @@
 
 
 # note : this version number is the plugin version. It has nothing to do with the version number of the dataset
-__version__ = "0.3.7"
+__version__ = "0.4.0"
 
 import climetlab as cml
 from climetlab import Dataset
@@ -106,7 +106,7 @@ def ensure_naming_conventions(ds):
     if "forecast_time" not in list(ds.coords) and "time" in list(ds.coords):
         ds = ds.rename({"time": "forecast_time"})
 
-    if "step" in list(ds.coords) and "lead_time" in list(ds.coords):
+    if "step" in list(ds.coords) and "lead_time" not in list(ds.coords):
         ds = ds.rename({"step": "lead_time"})
 
     if "isobaricInhPa" in list(ds.coords):
@@ -121,9 +121,12 @@ def ensure_naming_conventions(ds):
         ds = ds.drop_vars("surface")
 
     if "heightAboveGround" in list(ds.coords):
-        ds = ds.rename({'heightAboveGround':'height_above_ground'})
+        ds = ds.rename({"heightAboveGround": "height_above_ground"})
 
-    if "height_above_ground" in list(ds.coords) and len(ds.coords['height_above_ground']) <= 1:
+    if (
+        "height_above_ground" in list(ds.coords)
+        and len(ds.coords["height_above_ground"]) <= 1
+    ):
         ds = ds.squeeze("height_above_ground")
         ds = ds.drop("height_above_ground")
 
