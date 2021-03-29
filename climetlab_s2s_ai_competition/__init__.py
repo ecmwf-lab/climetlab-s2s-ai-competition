@@ -23,14 +23,23 @@ PATTERN_NCDF = "{url}/{data}/{dataset}/{version}/netcdf/{parameter}-{date}.nc"
 PATTERN_ZARR = "{url}/{data}/zarr/{parameter}.zarr"
 
 GLOB_ORIGIN = {
-    "ecmwf": "ecmwf",
-    "ecmf": "ecmwf",
+    "ecmwf": "ecmf",
+    "ecmf": "ecmf",
     "cwao": "cwao",
     "eccc": "cwao",
     "kwbc": "kwbc",
     "ncep": "kwbc",
 }
 
+# Hindcast and Forecasts are two different datasets. No more argument to choose betwen them.
+# GLOB_FCTYPE = {
+#     "hindcast": "hindcast",
+#     "forecast": "forecast",
+#     "realtime": "forecast",
+#     "hc": "hindcast",
+#     "rt": "forecast",
+#     "fc": "forecast"
+# }
 
 class S2sDataset(Dataset):
     name = None
@@ -71,7 +80,7 @@ class S2sDataset(Dataset):
             origin=self.origin,
             version=self.version,
             parameter=parameter,
-            fctype="hc" if hindcast else "rt",
+#            fctype="hc" if hindcast else "rt",
             date=date,
         )
         return request
