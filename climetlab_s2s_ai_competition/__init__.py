@@ -103,21 +103,29 @@ def ensure_naming_conventions(ds):
     if "number" in list(ds.coords):
         ds = ds.rename({"number": "realization"})
 
-    if "time" in list(ds.coords):
+    if "forecast_time" not in list(ds.coords) and "time" in list(ds.coords):
         ds = ds.rename({"time": "forecast_time"})
 
-    if "valid_time" in list(ds.coords):
-        ds = ds.rename({"valid_time": "time"})
+    if "step" in list(ds.coords) and "lead_time" in list(ds.coords):
+        ds = ds.rename({"step": "lead_time"})
 
-    if "heightAboveGround" in list(ds.coords):
-        # if we decide to keep it, rename it.
-        # ds = ds.rename({'heightAboveGround':'height_above_ground'})
-        ds = ds.squeeze("heightAboveGround")
-        ds = ds.drop_vars("heightAboveGround")
+    if "isobaricInhPa" in list(ds.coords):
+        ds = ds.rename({"isobaricInhPa": "plev"})
+
+    # if "plev" in list(ds.coords) and len(ds.coords['plev']) <= 1:
+    #    ds = ds.squeeze("plev")
+    #    ds = ds.drop("plev")
 
     if "surface" in list(ds.coords):
         ds = ds.squeeze("surface")
         ds = ds.drop_vars("surface")
+
+    if "heightAboveGround" in list(ds.coords):
+        ds = ds.rename({'heightAboveGround':'height_above_ground'})
+
+    if "height_above_ground" in list(ds.coords) and len(ds.coords['height_above_ground']) <= 1:
+        ds = ds.squeeze("height_above_ground")
+        ds = ds.drop("height_above_ground")
 
     return ds
 
