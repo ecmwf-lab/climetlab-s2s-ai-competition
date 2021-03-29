@@ -7,7 +7,7 @@
 #
 
 
-# note this version number has nothing to do with the version number of the dataset
+# note : this version number is the plugin version. It has nothing to do with the version number of the dataset
 __version__ = "0.3.7"
 
 import climetlab as cml
@@ -18,8 +18,12 @@ from climetlab.decorators import parameters
 URL = "https://storage.ecmwf.europeanweather.cloud"
 DATA = "s2s-ai-competition/data"
 
-PATTERN_GRIB = "{url}/{data}/{dataset}/{version}/grib/{parameter}-{date}.grib"
-PATTERN_NCDF = "{url}/{data}/{dataset}/{version}/netcdf/{parameter}-{date}.nc"
+PATTERN_GRIB = (
+    "{url}/{data}/{dataset}-{fctype}-{origin}/{version}/grib/{parameter}-{date}.grib"
+)
+PATTERN_NCDF = (
+    "{url}/{data}/{dataset}-{fctype}-{origin}/{version}/netcdf/{parameter}-{date}.nc"
+)
 PATTERN_ZARR = "{url}/{data}/zarr/{parameter}.zarr"
 
 GLOB_ORIGIN = {
@@ -31,15 +35,15 @@ GLOB_ORIGIN = {
     "ncep": "kwbc",
 }
 
-# Hindcast and Forecasts are two different datasets. No more argument to choose betwen them.
-# GLOB_FCTYPE = {
-#     "hindcast": "hindcast",
-#     "forecast": "forecast",
-#     "realtime": "forecast",
-#     "hc": "hindcast",
-#     "rt": "forecast",
-#     "fc": "forecast"
-# }
+GLOB_FCTYPE = {
+    "hindcast": "hindcast",
+    "forecast": "forecast",
+    "realtime": "forecast",
+    "hc": "hindcast",
+    "rt": "forecast",
+    "fc": "forecast",
+}
+
 
 class S2sDataset(Dataset):
     name = None
@@ -57,9 +61,9 @@ class S2sDataset(Dataset):
 
     dataset = None
 
-    def __init__(self, origin, version, dataset):
-        origin = GLOB_ORIGIN[origin.lower()]
-        self.origin = origin
+    def __init__(self, origin, version, dataset, fctype):
+        self.origin = GLOB_ORIGIN[origin.lower()]
+        self.fctype = GLOB_FCTYPE[fctype.lower()]
         self.version = version
         self.dataset = dataset
 
@@ -80,43 +84,47 @@ class S2sDataset(Dataset):
             origin=self.origin,
             version=self.version,
             parameter=parameter,
-#            fctype="hc" if hindcast else "rt",
+            fctype=self.fctype,
             date=date,
         )
         return request
 
     def post_xarray_open_dataset_hook(self, ds):
-        # we may want also to add this too :
-        # import cf2cdm # this is from the package cfgrib
-        # ds = cf2cdm.translate_coords(ds, cf2cdm.CDS)
-        # or
-        # ds = cf2cdm.translate_coords(ds, cf2cdm.ECMWF)
+        return ensure_naming_conventions(ds)
 
-        if "number" in list(ds.coords):
-            ds = ds.rename({"number": "realization"})
 
-        if "time" in list(ds.coords):
-            ds = ds.rename({"time": "forecast_time"})
+def ensure_naming_conventions(ds):
+    # we may want also to add this too :
+    # import cf2cdm # this is from the package cfgrib
+    # ds = cf2cdm.translate_coords(ds, cf2cdm.CDS)
+    # or
+    # ds = cf2cdm.translate_coords(ds, cf2cdm.ECMWF)
 
-        if "valid_time" in list(ds.coords):
-            ds = ds.rename({"valid_time": "time"})
+    if "number" in list(ds.coords):
+        ds = ds.rename({"number": "realization"})
 
-        if "heightAboveGround" in list(ds.coords):
-            # if we decide to keep it, rename it.
-            # ds = ds.rename({'heightAboveGround':'height_above_ground'})
-            ds = ds.squeeze("heightAboveGround")
-            ds = ds.drop_vars("heightAboveGround")
+    if "time" in list(ds.coords):
+        ds = ds.rename({"time": "forecast_time"})
 
-        if "surface" in list(ds.coords):
-            ds = ds.squeeze("surface")
-            ds = ds.drop_vars("surface")
+    if "valid_time" in list(ds.coords):
+        ds = ds.rename({"valid_time": "time"})
 
-        return ds
+    if "heightAboveGround" in list(ds.coords):
+        # if we decide to keep it, rename it.
+        # ds = ds.rename({'heightAboveGround':'height_above_ground'})
+        ds = ds.squeeze("heightAboveGround")
+        ds = ds.drop_vars("heightAboveGround")
+
+    if "surface" in list(ds.coords):
+        ds = ds.squeeze("surface")
+        ds = ds.drop_vars("surface")
+
+    return ds
 
 
 class S2sDatasetGRIB(S2sDataset):
-    def __init__(self, origin, version, dataset, *args, **kwargs):
-        super().__init__(origin, version, dataset)
+    def __init__(self, origin, version, dataset, fctype, *args, **kwargs):
+        super().__init__(origin, version, dataset, fctype)
         request = self._make_request(*args, **kwargs)
         self.source = cml.load_source("url-pattern", PATTERN_GRIB, request)
 
@@ -151,15 +159,15 @@ class S2sDatasetGRIB(S2sDataset):
 
 
 class S2sDatasetNETCDF(S2sDataset):
-    def __init__(self, origin, version, dataset, *args, **kwargs):
-        super().__init__(origin, version, dataset)
+    def __init__(self, origin, version, dataset, fctype, *args, **kwargs):
+        super().__init__(origin, version, dataset, fctype)
         request = self._make_request(*args, **kwargs)
         self.source = cml.load_source("url-pattern", PATTERN_NCDF, request)
 
 
 class S2sDatasetZARR(S2sDataset):
-    def __init__(self, origin, version, dataset, *args, **kwargs):
-        super().__init__(origin, version, dataset)
+    def __init__(self, origin, version, dataset, fctype, *args, **kwargs):
+        super().__init__(origin, version, dataset, fctype)
 
         from climetlab.utils.patterns import Pattern
 
@@ -172,7 +180,5 @@ class S2sDatasetZARR(S2sDataset):
 CLASSES = {"grib": S2sDatasetGRIB, "netcdf": S2sDatasetNETCDF, "zarr": S2sDatasetZARR}
 
 
-def dataset(
-    format="grib", origin="ecmf", version="0.1.42", dataset="training-set", **kwargs
-):
-    return CLASSES[format](origin, version, dataset, **kwargs)
+def dataset(dataset, *args, **kwargs):
+    return CLASSES[format](*args, **kwargs)
