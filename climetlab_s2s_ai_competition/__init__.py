@@ -24,7 +24,7 @@ PATTERN_GRIB = (
 PATTERN_NCDF = (
     "{url}/{data}/{dataset}-{fctype}-{origin}/{version}/netcdf/{parameter}-{date}.nc"
 )
-PATTERN_ZARR = "{url}/{data}/zarr/{parameter}.zarr"
+PATTERN_ZARR = "{url}/{data}/{dataset}-{fctype}-{origin}/{version}/{parameter}.zarr"
 
 GLOB_ORIGIN = {
     "ecmwf": "ecmf",
