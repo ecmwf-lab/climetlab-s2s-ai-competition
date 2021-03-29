@@ -24,7 +24,9 @@ PATTERN_GRIB = (
 PATTERN_NCDF = (
     "{url}/{data}/{dataset}-{fctype}-{origin}/{version}/netcdf/{parameter}-{date}.nc"
 )
-PATTERN_ZARR = "{url}/{data}/{dataset}-{fctype}-{origin}/{version}/{parameter}.zarr"
+PATTERN_ZARR = (
+    "{url}/{data}/{dataset}-{fctype}-{origin}/{version}/zarr/{parameter}.zarr"
+)
 
 GLOB_ORIGIN = {
     "ecmwf": "ecmf",
@@ -190,15 +192,18 @@ class S2sDatasetZARR(S2sDataset):
 
 CLASSES = {"grib": S2sDatasetGRIB, "netcdf": S2sDatasetNETCDF, "zarr": S2sDatasetZARR}
 
-class Info():
+
+class Info:
     def _get_alldates(self, origin, realtime):
         origin = GLOB_ORIGIN[origin]
         # Not used (yet?) by climetlab
         # TODO factorize this code to use it in dataset building
         import pandas as pd
-        if origin == 'ecmwf':
+
+        if origin == "ecmf":
             return pd.date_range(start="2020-01-02", end="2020-12-31", freq="w-thu")
         raise NotImplementedError()
+
 
 def dataset(dataset, *args, **kwargs):
     return CLASSES[format](*args, **kwargs)
