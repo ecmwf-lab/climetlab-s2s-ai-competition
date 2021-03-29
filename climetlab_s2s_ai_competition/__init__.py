@@ -7,8 +7,8 @@
 #
 
 
-# note this version number has nothing to do with the version number of the dataset
-__version__ = "0.3.7"
+# note : this version number is the plugin version. It has nothing to do with the version number of the dataset
+__version__ = "0.4.0"
 
 import climetlab as cml
 from climetlab import Dataset
@@ -18,17 +18,30 @@ from climetlab.decorators import parameters
 URL = "https://storage.ecmwf.europeanweather.cloud"
 DATA = "s2s-ai-competition/data"
 
-PATTERN_GRIB = "{url}/{data}/{dataset}-{origin}/{version}/grib/{fctype}/{origin}/{parameter}-{date}.grib"
-PATTERN_NCDF = "{url}/{data}/{dataset}-{origin}/{version}/netcdf/{fctype}/{origin}/{parameter}-{date}.nc"
-PATTERN_ZARR = "{url}/{data}/zarr/{parameter}.zarr"
+PATTERN_GRIB = (
+    "{url}/{data}/{dataset}-{fctype}-{origin}/{version}/grib/{parameter}-{date}.grib"
+)
+PATTERN_NCDF = (
+    "{url}/{data}/{dataset}-{fctype}-{origin}/{version}/netcdf/{parameter}-{date}.nc"
+)
+PATTERN_ZARR = "{url}/{data}/{dataset}-{fctype}-{origin}/{version}/{parameter}.zarr"
 
 GLOB_ORIGIN = {
-    "ecmwf": "ecmwf",
-    "ecmf": "ecmwf",
+    "ecmwf": "ecmf",
+    "ecmf": "ecmf",
     "cwao": "cwao",
     "eccc": "cwao",
     "kwbc": "kwbc",
     "ncep": "kwbc",
+}
+
+GLOB_FCTYPE = {
+    "hindcast": "hindcast",
+    "forecast": "forecast",
+    "realtime": "forecast",
+    "hc": "hindcast",
+    "rt": "forecast",
+    "fc": "forecast",
 }
 
 
@@ -48,9 +61,9 @@ class S2sDataset(Dataset):
 
     dataset = None
 
-    def __init__(self, origin, version, dataset):
-        origin = GLOB_ORIGIN[origin.lower()]
-        self.origin = origin
+    def __init__(self, origin, version, dataset, fctype):
+        self.origin = GLOB_ORIGIN[origin.lower()]
+        self.fctype = GLOB_FCTYPE[fctype.lower()]
         self.version = version
         self.dataset = dataset
 
@@ -71,43 +84,58 @@ class S2sDataset(Dataset):
             origin=self.origin,
             version=self.version,
             parameter=parameter,
-            fctype="hc" if hindcast else "rt",
+            fctype=self.fctype,
             date=date,
         )
         return request
 
     def post_xarray_open_dataset_hook(self, ds):
-        # we may want also to add this too :
-        # import cf2cdm # this is from the package cfgrib
-        # ds = cf2cdm.translate_coords(ds, cf2cdm.CDS)
-        # or
-        # ds = cf2cdm.translate_coords(ds, cf2cdm.ECMWF)
+        return ensure_naming_conventions(ds)
 
-        if "number" in list(ds.coords):
-            ds = ds.rename({"number": "realization"})
 
-        if "time" in list(ds.coords):
-            ds = ds.rename({"time": "forecast_time"})
+def ensure_naming_conventions(ds):
+    # we may want also to add this too :
+    # import cf2cdm # this is from the package cfgrib
+    # ds = cf2cdm.translate_coords(ds, cf2cdm.CDS)
+    # or
+    # ds = cf2cdm.translate_coords(ds, cf2cdm.ECMWF)
 
-        if "valid_time" in list(ds.coords):
-            ds = ds.rename({"valid_time": "time"})
+    if "number" in list(ds.coords):
+        ds = ds.rename({"number": "realization"})
 
-        if "heightAboveGround" in list(ds.coords):
-            # if we decide to keep it, rename it.
-            # ds = ds.rename({'heightAboveGround':'height_above_ground'})
-            ds = ds.squeeze("heightAboveGround")
-            ds = ds.drop_vars("heightAboveGround")
+    if "forecast_time" not in list(ds.coords) and "time" in list(ds.coords):
+        ds = ds.rename({"time": "forecast_time"})
 
-        if "surface" in list(ds.coords):
-            ds = ds.squeeze("surface")
-            ds = ds.drop_vars("surface")
+    if "step" in list(ds.coords) and "lead_time" not in list(ds.coords):
+        ds = ds.rename({"step": "lead_time"})
 
-        return ds
+    if "isobaricInhPa" in list(ds.coords):
+        ds = ds.rename({"isobaricInhPa": "plev"})
+
+    # if "plev" in list(ds.coords) and len(ds.coords['plev']) <= 1:
+    #    ds = ds.squeeze("plev")
+    #    ds = ds.drop("plev")
+
+    if "surface" in list(ds.coords):
+        ds = ds.squeeze("surface")
+        ds = ds.drop_vars("surface")
+
+    if "heightAboveGround" in list(ds.coords):
+        ds = ds.rename({"heightAboveGround": "height_above_ground"})
+
+    if (
+        "height_above_ground" in list(ds.coords)
+        and len(ds.coords["height_above_ground"]) <= 1
+    ):
+        ds = ds.squeeze("height_above_ground")
+        ds = ds.drop("height_above_ground")
+
+    return ds
 
 
 class S2sDatasetGRIB(S2sDataset):
-    def __init__(self, origin, version, dataset, *args, **kwargs):
-        super().__init__(origin, version, dataset)
+    def __init__(self, origin, version, dataset, fctype, *args, **kwargs):
+        super().__init__(origin, version, dataset, fctype)
         request = self._make_request(*args, **kwargs)
         self.source = cml.load_source("url-pattern", PATTERN_GRIB, request)
 
@@ -142,15 +170,15 @@ class S2sDatasetGRIB(S2sDataset):
 
 
 class S2sDatasetNETCDF(S2sDataset):
-    def __init__(self, origin, version, dataset, *args, **kwargs):
-        super().__init__(origin, version, dataset)
+    def __init__(self, origin, version, dataset, fctype, *args, **kwargs):
+        super().__init__(origin, version, dataset, fctype)
         request = self._make_request(*args, **kwargs)
         self.source = cml.load_source("url-pattern", PATTERN_NCDF, request)
 
 
 class S2sDatasetZARR(S2sDataset):
-    def __init__(self, origin, version, dataset, *args, **kwargs):
-        super().__init__(origin, version, dataset)
+    def __init__(self, origin, version, dataset, fctype, *args, **kwargs):
+        super().__init__(origin, version, dataset, fctype)
 
         from climetlab.utils.patterns import Pattern
 
@@ -172,7 +200,5 @@ class Info():
             return pd.date_range(start="2020-01-02", end="2020-12-31", freq="w-thu")
         raise NotImplementedError()
 
-def dataset(
-    format="grib", origin="ecmf", version="0.1.36", dataset="training-set", **kwargs
-):
-    return CLASSES[format](origin, version, dataset, **kwargs)
+def dataset(dataset, *args, **kwargs):
+    return CLASSES[format](*args, **kwargs)
