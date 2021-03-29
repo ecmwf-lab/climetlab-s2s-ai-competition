@@ -25,7 +25,8 @@ PATTERN_NCDF = (
     "{url}/{data}/{dataset}-{fctype}-{origin}/{version}/netcdf/{parameter}-{date}.nc"
 )
 PATTERN_ZARR = (
-    "{url}/{data}/{dataset}-{fctype}-{origin}/{version}/zarr/{parameter}.zarr"
+    # "{url}/{data}/{dataset}-{fctype}-{origin}/{version}/zarr/{parameter}.zarr"
+    "{url}/{data}/zarr/{parameter}.zarr"
 )
 
 GLOB_ORIGIN = {
@@ -185,6 +186,10 @@ class S2sDatasetZARR(S2sDataset):
         from climetlab.utils.patterns import Pattern
 
         request = self._make_request(*args, **kwargs)
+        request.pop("date")
+        # TODO : remove these pop. leave only the date.
+        for k in ["dataset", "origin", "version", "fctype"]:
+            request.pop(k)
         urls = Pattern(PATTERN_ZARR).substitute(request)
 
         self.source = cml.load_source("zarr-s3", urls)
