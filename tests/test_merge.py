@@ -1,8 +1,6 @@
 import xarray as xr
 import climetlab as cml
 
-# version = "0.0.9"
-
 
 def test_merge_2020_01_02_and_2020_01_09():
     merge_multiple_dates(["20200102", "20200109"])
@@ -23,7 +21,7 @@ def merge(date):
         "s2s-ai-competition-training-set",
         origin="cwao",
         date=date,
-        parameter="2t",  # , version=version
+        parameter="2t",
         format="grib",
     )
     dslist.append(ds.to_xarray())
@@ -31,7 +29,7 @@ def merge(date):
         "s2s-ai-competition-training-set",
         origin="cwao",
         date=date,
-        parameter="tp",  # , version=version
+        parameter="tp",
         format="grib",
     )
     dslist.append(ds.to_xarray())
@@ -59,7 +57,7 @@ def merge_multiple_dates(dates):
             "s2s-ai-competition-training-set",
             origin="cwao",
             date=date,
-            parameter="2t",  # , version=version
+            parameter="2t",
         )
         dslist.append(ds.to_xarray())
 
