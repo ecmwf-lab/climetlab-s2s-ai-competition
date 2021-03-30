@@ -31,8 +31,6 @@ assert version
 
 
 install_requires = ["climetlab>=0.4.5"]
-# install_requires = (["chardet==3.0.4", "requests", "climetlab>=0.4.5", "zarr", "s3fs"],)
-# install_requires = ["climetlab>=0.4.5[zarr]"]
 extras_require = {"zarr": ["zarr", "s3fs"]}
 
 setuptools.setup(
