@@ -1,8 +1,14 @@
 from . import CLASSES
+from . import DATA_VERSION
 
 
 def dataset(
-    format="grib", origin="ecmwf", fctype="forecast", version="0.1.42", *args, **kwargs
+    format="grib",
+    origin="ecmwf",
+    fctype="forecast",
+    version=DATA_VERSION,
+    *args,
+    **kwargs
 ):
     return CLASSES[format](
         origin=origin,

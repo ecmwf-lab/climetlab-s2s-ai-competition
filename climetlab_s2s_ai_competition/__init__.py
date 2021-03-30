@@ -9,6 +9,7 @@
 
 # note : this version number is the plugin version. It has nothing to do with the version number of the dataset
 __version__ = "0.4.6"
+DATA_VERSION = "0.1.43"
 
 import climetlab as cml
 from climetlab import Dataset
