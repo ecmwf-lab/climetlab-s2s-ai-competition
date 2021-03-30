@@ -30,7 +30,6 @@ for line in read(init_py).split("\n"):
 assert version
 
 
-install_requires = ["climetlab>=0.4.5"]
 extras_require = {"zarr": ["zarr", "s3fs"]}
 
 setuptools.setup(
@@ -44,7 +43,7 @@ setuptools.setup(
     url="https://github.com/ecmwf-lab/climetlab-s2s-ai-competition",
     packages=setuptools.find_packages(),
     include_package_data=True,
-    install_requires=install_requires,
+    install_requires=["climetlab>=0.4.5"],
     extras_require=extras_require,
     zip_safe=True,
     entry_points={
