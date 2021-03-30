@@ -24,6 +24,7 @@ def merge(date):
         origin="cwao",
         date=date,
         parameter="2t",  # , version=version
+        format="grib",
     )
     dslist.append(ds.to_xarray())
     ds = cml.load_dataset(
@@ -31,6 +32,7 @@ def merge(date):
         origin="cwao",
         date=date,
         parameter="tp",  # , version=version
+        format="grib",
     )
     dslist.append(ds.to_xarray())
 
@@ -45,7 +47,8 @@ def merge(date):
     print("-- Merged into --")
     check(ds)
 
-    dslist[0].step.values, dslist[1].step.values
+    assert dslist[0].lead_time.values[0] == dslist[1].lead_time.values[0]
+    assert dslist[0].lead_time.values[-1] == dslist[1].lead_time.values[-1]
 
 
 def merge_multiple_dates(dates):
