@@ -88,4 +88,4 @@ jobs:
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
       run: |
         python setup.py sdist --verbose
-        twine upload dist/*
+        twine upload dist/* --verbose
