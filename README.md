@@ -6,9 +6,9 @@ In this README is a description of how to get the data for the S2S AI competitio
 
 There are two datasets:
 - Training dataset from three different models : ECMWF, ECCC, NCEP. Each of these three datasets are splitted into two forecast types : fctype='forecast' and fctype='hindcast' data. This gives 6 datasets :
-  -  training-set-forecast-ecmf [grib](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-set-forecast-ecmwf/0.1.43/grib/index.html)   [netcdf](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-set-forecast-ecmf/0.1.43/netcdf/index.html)
-  -  training-set-forecast-cwao [grib](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-set-forecast-cwao/0.1.43/grib/index.html)   [netcdf](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-set-forecast-cwao/0.1.43/netcdf/index.html)
-  -  training-set-forecast-kwbc [grib](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-set-forecast-kwbc/0.1.43/grib/index.html)  [netcdf](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-set-forecast-kwbc/0.1.43/netcdf/index.html)
+  -  training-set-forecast-ecmf : [grib](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-set-forecast-ecmwf/0.1.43/grib/index.html), [netcdf](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-set-forecast-ecmf/0.1.43/netcdf/index.html)
+  -  training-set-forecast-cwao : [grib](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-set-forecast-cwao/0.1.43/grib/index.html), [netcdf](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-set-forecast-cwao/0.1.43/netcdf/index.html)
+  -  training-set-forecast-kwbc : [grib](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-set-forecast-kwbc/0.1.43/grib/index.html), [netcdf](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-set-forecast-kwbc/0.1.43/netcdf/index.html)
   -  training-set-hindcast-ecmf (not fully uploaded yet)
   -  training-set-hindcast-cwao (not fully uploaded yet)
   -  training-set-hindcast-kwbc (not fully uploaded yet)
@@ -24,7 +24,7 @@ There are several ways to use the datasets:
 Data is available weekly every 7 days from 2020-01-02 (every Thurday).
 
 ## Direct download 
-### GRIB format : 
+### GRIB format
 
 The list of GRIB files for the 'training-set-forecast-cwao' dataset can be found at : 
 
