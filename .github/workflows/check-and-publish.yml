@@ -62,7 +62,8 @@ jobs:
       - name: Tests
         run: |
           pip freeze
-          # pytest # disabling the test because they take too long to run on github
+          pytest tests/test_read_zarr.py 
+          # pytest # disabling other the tests because they take too long to run on github
   deploy:
 
     if: ${{ github.event_name == 'release' }}
