@@ -211,11 +211,11 @@ class Info:
             # TODO shoud we take the daily ? clarify.
             return pd.date_range(start="2020-01-02", end="2020-12-31", freq="w-thu")
         if origin == "kwbc":
-            if realtime == 'forecast':
+            if realtime == "forecast":
                 # TODO shoud we take the daily ? clarify.
                 return pd.date_range(start="2020-01-02", end="2020-12-31", freq="w-thu")
-            if realtime == 'hindcast':
-                # shoud we take the thurday ? 
+            if realtime == "hindcast":
+                # shoud we take the thurday ?
                 # we chose the saturday to ensure that we have the same day_of_year day in 2010 (reference year for kwbc) and for 2020 (reference year for ecmwf)
                 # TODO clarify.
                 return pd.date_range(start="2010-01-02", end="2010-12-31", freq="w-sat")
