@@ -4,8 +4,8 @@ Sub seasonal to Seasonal (S2S) Artificial Intelligence Competition : http://todo
 
 In this README is a description of how to get the data for the S2S AI competition. You can find a full description of the dataset here : http://todo.link.int
 
-There are two datasets:
-- Training dataset from three different models : ECMWF, ECCC, NCEP. Each of these three datasets are splitted into two forecast types : fctype='forecast' and fctype='hindcast' data. This gives 6 datasets :
+There are three datasets:
+- **Training dataset** from three different models : ECMWF, ECCC, NCEP. Each of these three datasets are splitted into two forecast types : fctype='forecast' and fctype='hindcast' data. This gives 6 datasets :
   -  training-set-forecast-ecmf : [grib](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-set-forecast-ecmwf/0.1.43/grib/index.html), [netcdf](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-set-forecast-ecmf/0.1.43/netcdf/index.html)
 Data is available weekly every 7 days from 2020-01-02 (every Thurday).
   -  training-set-forecast-cwao : [grib](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-set-forecast-cwao/0.1.43/grib/index.html), [netcdf](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-set-forecast-cwao/0.1.43/netcdf/index.html)
@@ -13,8 +13,8 @@ Data is available weekly every 7 days from 2020-01-02 (every Thurday).
   -  training-set-hindcast-ecmf (not fully uploaded yet)
   -  training-set-hindcast-cwao (not fully uploaded yet)
   -  training-set-hindcast-kwbc (not fully uploaded yet)
-- Benchmark dataset (TBD) (only temperature and total precipitation, only 2020, only ECMWF model). Size : >1T.
-- Verification dataset (TBD)
+- **Benchmark dataset** (TBD) (only temperature and total precipitation, only 2020, only ECMWF model). Size : >1T.
+- **Verification dataset** (TBD)
 
 There are several ways to use the datasets. Either by direct download (wget, curl, browser) for GRIB and NetCDF formats ; or using the climetlab python package with this addon, for GRIB and NetCDF and zarr formats. Zarr is a cloud-friendly experimental data format and supports dowloading only the part of the data that is required. It has been designed to work better than classical format on a cloud environment (experimental).
 
