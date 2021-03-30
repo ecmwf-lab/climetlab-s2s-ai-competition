@@ -50,6 +50,7 @@ jobs:
 
       - name: Tests
         run: |
+          pip install chardet==3.0.4 
           pip install requests
           python setup.py develop
           pip freeze
