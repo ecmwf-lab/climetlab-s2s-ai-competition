@@ -57,7 +57,7 @@ jobs:
           python setup.py develop
           pip freeze
           pip install pytest
-          #pip install zarr s3fs
+          pip install zarr s3fs
           pytest
 
   deploy:
