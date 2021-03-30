@@ -50,13 +50,13 @@ jobs:
 
       - name: Tests
         run: |
-          pip install chardet==3.0.4 # zarr==2.6.1
-          pip install requests
+          #pip install chardet==3.0.4 # zarr==2.6.1
+          #pip install requests
           #pip install climetlab
           python setup.py develop
           pip freeze
           pip install pytest
-          pip install zarr s3fs
+          #pip install zarr s3fs
           pytest
 
   deploy:
