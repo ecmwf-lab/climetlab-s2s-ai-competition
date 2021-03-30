@@ -40,6 +40,6 @@ jobs:
 
       - name: Tests
         run: |
-          python install -e .
+          pip install -e .
           pip freeze
           pytest
