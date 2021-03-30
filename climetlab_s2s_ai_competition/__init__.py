@@ -8,7 +8,7 @@
 
 
 # note : this version number is the plugin version. It has nothing to do with the version number of the dataset
-__version__ = "0.4.5"
+__version__ = "0.4.6"
 
 import climetlab as cml
 from climetlab import Dataset
@@ -30,8 +30,8 @@ PATTERN_ZARR = (
 )
 
 GLOB_ORIGIN = {
-    "ecmwf": "ecmf",
-    "ecmf": "ecmf",
+    "ecmwf": "ecmwf",  # put ecmf back when training-set-*cast-ecmf are uploaded.
+    "ecmf": "ecmwf",  # put ecmf back when training-set-*cast-ecmf are uploaded.
     "cwao": "cwao",
     "eccc": "cwao",
     "kwbc": "kwbc",
