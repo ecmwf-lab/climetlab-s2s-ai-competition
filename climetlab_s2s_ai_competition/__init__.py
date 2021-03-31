@@ -30,7 +30,7 @@ PATTERN_ZARR = (
     "{url}/{data}/zarr/{parameter}.zarr"
 )
 
-GLOB_ORIGIN = {
+ALIAS_ORIGIN = {
     "ecmwf": "ecmwf",  # put ecmf back when training-set-*cast-ecmf are uploaded.
     "ecmf": "ecmwf",  # put ecmf back when training-set-*cast-ecmf are uploaded.
     "cwao": "cwao",
@@ -39,7 +39,7 @@ GLOB_ORIGIN = {
     "ncep": "kwbc",
 }
 
-GLOB_FCTYPE = {
+ALIAS_FCTYPE = {
     "hindcast": "hindcast",
     "forecast": "forecast",
     "realtime": "forecast",
@@ -66,8 +66,8 @@ class S2sDataset(Dataset):
     dataset = None
 
     def __init__(self, origin, version, dataset, fctype):
-        self.origin = GLOB_ORIGIN[origin.lower()]
-        self.fctype = GLOB_FCTYPE[fctype.lower()]
+        self.origin = ALIAS_ORIGIN[origin.lower()]
+        self.fctype = ALIAS_FCTYPE[fctype.lower()]
         self.version = version
         self.dataset = dataset
 
@@ -201,26 +201,43 @@ CLASSES = {"grib": S2sDatasetGRIB, "netcdf": S2sDatasetNETCDF, "zarr": S2sDatase
 
 class Info:
     def _get_alldates(self, origin, realtime):
-        origin = GLOB_ORIGIN[origin]
+        origin = ALIAS_ORIGIN[origin]
         # Not used (yet?) by climetlab
-        # TODO factorize this code to use it in dataset building
+        # TODO create a yaml instead ?
         import pandas as pd
 
-        if origin == "ecmf":
-            return pd.date_range(start="2020-01-02", end="2020-12-31", freq="w-thu")
-        if origin == "cwao":
-            # TODO shoud we take the daily ? clarify.
-            return pd.date_range(start="2020-01-02", end="2020-12-31", freq="w-thu")
-        if origin == "kwbc":
-            if realtime == "forecast":
+        ALLDATES = {
+            "ecmwf": {
+                "forecast": pd.date_range(
+                    start="2020-01-02", end="2020-12-31", freq="w-thu"
+                ),
+                "hindcast": pd.date_range(
+                    start="2020-01-02", end="2020-12-31", freq="w-thu"
+                ),
+            },
+            "cwao": {
                 # TODO shoud we take the daily ? clarify.
-                return pd.date_range(start="2020-01-02", end="2020-12-31", freq="w-thu")
-            if realtime == "hindcast":
+                "forecast": pd.date_range(
+                    start="2020-01-02", end="2020-12-31", freq="w-thu"
+                ),
+                "hindcast": pd.date_range(
+                    start="2020-01-02", end="2020-12-31", freq="w-thu"
+                ),
+            },
+            "kwbc": {
+                # TODO shoud we take the daily ? clarify.
+                "forecast": pd.date_range(
+                    start="2020-01-02", end="2020-12-31", freq="w-thu"
+                ),
                 # shoud we take the thurday ?
                 # we chose the saturday to ensure that we have the same day_of_year day in 2010 (reference year for kwbc) and for 2020 (reference year for ecmwf)
                 # TODO clarify.
-                return pd.date_range(start="2010-01-02", end="2010-12-31", freq="w-sat")
-        raise NotImplementedError()
+                "hindcast": pd.date_range(
+                    start="2010-01-02", end="2010-12-31", freq="w-sat"
+                ),
+            },
+        }
+        return ALLDATES[origin][realtime]
 
 
 def dataset(dataset, *args, **kwargs):
