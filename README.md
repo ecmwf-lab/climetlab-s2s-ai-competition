@@ -1,3 +1,6 @@
+.. |ci|  image:: https://github.com/ecmwf-lab/climetlab-s2s-ai-competition/workflows/check-and-publish/badge.svg
+    :target: https://github.com/ecmwf-lab/climetlab-s2s-ai-competition/actions/workflows/check-and-publish.yml
+
 # S2S AI competition Datasets
 
 Sub seasonal to Seasonal (S2S) Artificial Intelligence Competition : http://todo.link
@@ -19,10 +22,10 @@ _Data is available weekly every 7 days from 2020-01-02 (every Thurday)._
 There are several ways to use the datasets. Either by direct download (wget, curl, browser) for GRIB and NetCDF formats ; or using the climetlab python package with this addon, for GRIB and NetCDF and zarr formats. Zarr is a cloud-friendly experimental data format and supports dowloading only the part of the data that is required. It has been designed to work better than classical format on a cloud environment (experimental).
 
 
-# Direct download 
+# Direct download
 ## GRIB format
 
-The list of GRIB files for the 'training-set-forecast-cwao' dataset can be found at : 
+The list of GRIB files for the 'training-set-forecast-cwao' dataset can be found at :
 
 https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-set-forecast-cwao/0.1.43/grib/index.html
 
@@ -40,7 +43,7 @@ Example to retrieve the file with wget :
 
 ## NetCDF format
 
-The list of NetCDF files for the 'training-set-forecast-cwao' dataset can be found at : 
+The list of NetCDF files for the 'training-set-forecast-cwao' dataset can be found at :
 
 https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-set-forecast-cwao/0.1.43/netcdf/index.html
 
@@ -64,7 +67,7 @@ While accessing the zarr storage without climetlab may be possible, we recommend
 
 # Use the data with climetlab (supports grib, netcdf and zarr)
 
-See the demo notebooks here (https://github.com/ecmwf-lab/climetlab-s2s-ai-competition/notebooks) : 
+See the demo notebooks here (https://github.com/ecmwf-lab/climetlab-s2s-ai-competition/notebooks) :
 - Netcdf [nbviewer](https://nbviewer.jupyter.org/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/notebooks/demo_netcdf.ipynb) [colab](https://colab.research.google.com/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/notebooks/demo_netcdf.ipynb)
 - Grib [nbviewer](https://nbviewer.jupyter.org/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/notebooks/demo_grib.ipynb) [colab](https://colab.research.google.com/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/notebooks/demo_grib.ipynb)
 - Zarr [nbviewer](https://nbviewer.jupyter.org/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/notebooks/demo_zarr.ipynb) [colab](https://colab.research.google.com/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/notebooks/demo_zarr.ipynb)  <span style="color:red;">(experimental)</span> .
