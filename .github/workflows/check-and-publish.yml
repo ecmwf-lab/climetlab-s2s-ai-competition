@@ -66,9 +66,12 @@ jobs:
           # pytest # disabling other the tests because they take too long to run on github
 
       - name: Notebooks
-        run: |
-          pip install --upgrade nbstripout jupyterlab
-          nbstripout notebooks/*.ipynb
+      - uses: "treebeardtech/nbmake-action@v0.2"
+        with:
+          path: "notebooks"
+          path-output: .
+          notebooks: |
+            '*.ipynb'
 
   deploy:
 
