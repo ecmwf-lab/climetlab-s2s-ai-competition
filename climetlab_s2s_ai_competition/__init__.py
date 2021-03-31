@@ -31,8 +31,8 @@ PATTERN_ZARR = (
 )
 
 ALIAS_ORIGIN = {
-    "ecmwf": "ecmwf",  # put ecmf back when training-set-*cast-ecmf are uploaded.
-    "ecmf": "ecmwf",  # put ecmf back when training-set-*cast-ecmf are uploaded.
+    "ecmwf": "ecmf",
+    "ecmf": "ecmf",
     "cwao": "cwao",
     "eccc": "cwao",
     "kwbc": "kwbc",
@@ -207,7 +207,7 @@ class Info:
         import pandas as pd
 
         ALLDATES = {
-            "ecmwf": {
+            "ecmf": {
                 "forecast": pd.date_range(
                     start="2020-01-02", end="2020-12-31", freq="w-thu"
                 ),
