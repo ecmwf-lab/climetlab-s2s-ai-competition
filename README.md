@@ -1,4 +1,4 @@
-.. |ci|  image:: https://github.com/ecmwf-lab/climetlab-s2s-ai-competition/workflows/check-and-publish/badge.svg
+.. image:: https://github.com/ecmwf-lab/climetlab-s2s-ai-competition/workflows/check-and-publish/badge.svg
     :target: https://github.com/ecmwf-lab/climetlab-s2s-ai-competition/actions/workflows/check-and-publish.yml
 
 # S2S AI competition Datasets
