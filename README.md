@@ -1,4 +1,4 @@
-[![Check and publish Python Package](https://github.com/ecmwf-lab/climetlab-s2s-ai-competition/actions/workflows/check-and-publish.yml/badge.svg)](https://github.com/ecmwf-lab/climetlab-s2s-ai-competition/actions/workflows/check-and-publish.yml) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ecmwf-lab/climetlab-s2s-ai-competition/master?urlpath=lab)
+[![Check and publish Python Package](https://github.com/ecmwf-lab/climetlab-s2s-ai-competition/actions/workflows/check-and-publish.yml/badge.svg)](https://github.com/ecmwf-lab/climetlab-s2s-ai-competition/actions/workflows/check-and-publish.yml) [![pypi](https://img.shields.io/pypi/v/climetlab-s2s-ai-competition.svg)](https://pypi.python.org/pypi/climetlab-s2s-ai-competition/) [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ecmwf-lab/climetlab-s2s-ai-competition/master?urlpath=lab)
 
 
 # S2S AI competition Datasets
