@@ -1,4 +1,4 @@
-[![CI](https://github.com/ecmwf-lab/climetlab-s2s-ai-competition/workflows/check-and-publish/badge.svg)](https://github.com/ecmwf-lab/climetlab-s2s-ai-competition/workflows/check-and-publish.yml)
+[![Check and publish Python Package](https://github.com/ecmwf-lab/climetlab-s2s-ai-competition/actions/workflows/check-and-publish.yml/badge.svg)](https://github.com/ecmwf-lab/climetlab-s2s-ai-competition/actions/workflows/check-and-publish.yml)
 
 [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ecmwf-lab/climetlab-s2s-ai-competition/master?urlpath=lab)
 
@@ -12,7 +12,7 @@ In this README is a description of how to get the data for the S2S AI competitio
 There are three datasets:
 - **Training dataset** from three different models : ECMWF, ECCC, NCEP. Each of these three datasets are splitted into two forecast types : fctype='forecast' and fctype='hindcast' data. This gives 6 datasets :
   -  training-set-forecast-ecmf : [grib](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-set-forecast-ecmwf/0.1.43/grib/index.html), [netcdf](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-set-forecast-ecmf/0.1.43/netcdf/index.html).
-_Data is available weekly every 7 days from 2020-01-02 (every Thurday)._
+_Data is available weekly every 7 days from 2020-01-02 (every Thursday)._
   -  training-set-forecast-cwao : [grib](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-set-forecast-cwao/0.1.43/grib/index.html), [netcdf](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-set-forecast-cwao/0.1.43/netcdf/index.html)
   -  training-set-forecast-kwbc : [grib](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-set-forecast-kwbc/0.1.43/grib/index.html), [netcdf](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-set-forecast-kwbc/0.1.43/netcdf/index.html)
   -  training-set-hindcast-ecmf (not fully uploaded yet)
