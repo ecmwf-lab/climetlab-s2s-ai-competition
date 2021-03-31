@@ -70,6 +70,9 @@ jobs:
         with:
           path: "notebooks"
           notebooks: '*.ipynb'
+          verbose: true
+          ignore: |
+            '*zarr*.ipynb'
 
   deploy:
 
