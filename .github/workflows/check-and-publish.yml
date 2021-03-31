@@ -68,8 +68,7 @@ jobs:
       - name: Notebooks
         uses: "treebeardtech/nbmake-action@v0.2"
         with:
-          path: "notebooks"
-          notebooks: '*.ipynb'
+          notebooks: 'notebooks/*.ipynb'
           verbose: true
           ignore: |
             '*zarr*.ipynb'
