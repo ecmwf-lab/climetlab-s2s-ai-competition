@@ -62,8 +62,14 @@ jobs:
       - name: Tests
         run: |
           pip freeze
-          pytest tests/test_read_zarr.py 
+          pytest tests/test_read_zarr.py
           # pytest # disabling other the tests because they take too long to run on github
+
+      - name: Notebooks
+        run: |
+          pip install --upgrade nbstripout jupyterlab
+          nbstripout notebooks/*.ipynb
+
   deploy:
 
     if: ${{ github.event_name == 'release' }}
