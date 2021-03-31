@@ -77,9 +77,9 @@ The climetlab python package allows easy access to the data with a few lines of 
 !pip install climetlab climetlab_s2s_ai_competition
 import climetlab as cml
 ds = cml.load_dataset("s2s-ai-competition-training-set",
-     origin="cwao",
-     fctype="forecast",
-     date="20200102",
-     parameter='2t')
+                      origin="cwao",
+                      fctype="forecast",
+                      date="20200102",
+                      parameter='2t')
 ds.to_xarray()
 ```
