@@ -1,5 +1,8 @@
-.. image:: https://github.com/ecmwf-lab/climetlab-s2s-ai-competition/workflows/check-and-publish/badge.svg
-   :target: https://github.com/ecmwf-lab/climetlab-s2s-ai-competition/workflows/check-and-publish.yml
+[![CI](https://github.com/ecmwf-lab/climetlab-s2s-ai-competition/workflows/check-and-publish/badge.svg)](https://github.com/ecmwf-lab/climetlab-s2s-ai-competition/workflows/check-and-publish.yml)
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ecmwf-lab/climetlab-s2s-ai-competition/master)
+
+
 
 # S2S AI competition Datasets
 
