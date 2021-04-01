@@ -28,7 +28,7 @@ https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-set
 
 The URLs are constructed according to the following pattern:
 
-https:<span></span>//storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/{datasetname}/0.1.43/grib/{param}-rt-{date}.grib
+https:<span></span>//storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/{datasetname}/0.1.43/grib/{param}-{date}.grib
 
 - {param} is "2t" for surface temperature at 2m, "tp" for total precipitation.
 - {date} is the date of retrieval following the YYYYMMDD format.
@@ -46,7 +46,9 @@ https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-set
 
 The URLs are constructed according to the following pattern:
 
-https:<span></span>//storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/{datasetname}/0.1.43/netcdf/{param}-rt-{date}.nc
+https:<span></span>//storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/{datasetname}/0.1.43/netcdf/{param}-
+
+-{date}.nc
 
 - {param} is "2t" for surface temperature at 2m, "tp" for total precipitation.
 - {date} is the date of retrieval following the YYYYMMDD format.
