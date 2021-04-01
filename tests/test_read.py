@@ -10,7 +10,6 @@
 #
 
 import climetlab as cml
-import pytest
 
 # import climetlab_s2s_ai_competition
 # from climetlab_s2s_ai_competition.source import S2sReferenceDataSource

@@ -9,8 +9,6 @@
 # nor does it submit to any jurisdiction.
 #
 
-import pytest
-
 import climetlab as cml
 
 

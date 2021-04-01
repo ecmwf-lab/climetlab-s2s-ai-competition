@@ -1,5 +1,4 @@
-from . import CLASSES
-from . import DATA_VERSION
+from . import CLASSES, DATA_VERSION
 
 
 def dataset(

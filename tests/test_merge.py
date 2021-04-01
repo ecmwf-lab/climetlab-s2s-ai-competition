@@ -1,5 +1,5 @@
-import xarray as xr
 import climetlab as cml
+import xarray as xr
 
 
 def test_merge_2020_01_02_and_2020_01_09():

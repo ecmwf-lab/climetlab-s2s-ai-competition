@@ -5,15 +5,15 @@
 # granted to it by virtue of its status as an intergovernmental organisation
 # nor does it submit to any jurisdiction.
 #
+from __future__ import annotations
 
+import climetlab as cml
+from climetlab import Dataset
+from climetlab.normalize import normalize_args
 
 # note : this version number is the plugin version. It has nothing to do with the version number of the dataset
 __version__ = "0.4.9"
 DATA_VERSION = "0.1.43"
-
-import climetlab as cml
-from climetlab import Dataset
-from climetlab.decorators import parameters
 
 
 URL = "https://storage.ecmwf.europeanweather.cloud"
@@ -71,10 +71,7 @@ class S2sDataset(Dataset):
         self.version = version
         self.dataset = dataset
 
-    # latter on, we want also to support stacking decorators
-    #    @parameters(parameter=("parameter-list", "mars"))
-    #    @parameters(date=("date-list", "%Y%m%d"))
-    @parameters(parameter=("parameter-list", "mars"), date=("date-list", "%Y%m%d"))
+    @normalize_args(parameter="parameter-list(mars)", date="date-list(%Y%m%d)")
     def _make_request(
         self,
         date="20200102",
