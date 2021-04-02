@@ -71,7 +71,7 @@ class S2sDataset(Dataset):
         self.version = version
         self.dataset = dataset
 
-    @normalize_args(parameter="parameter-list(mars)", date="date-list(%Y%m%d)")
+    @normalize_args(parameter="variable-list(mars)", date="date-list(%Y%m%d)")
     def _make_request(
         self,
         date="20200102",
