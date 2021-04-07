@@ -247,11 +247,8 @@ class Info:
                 "forecast": pd.date_range(
                     start="2020-01-02", end="2020-12-31", freq="w-thu"
                 ),
-                # shoud we take the thursday ?
-                # we chose the saturday to ensure that we have the same day_of_year day in 2010 (reference year for kwbc) and for 2020 (reference year for ecmwf)
-                # TODO clarify.
                 "hindcast": pd.date_range(
-                    start="2010-01-02", end="2010-12-31", freq="w-sat"
+                    start="1999-01-07", end="2010-12-29", freq="w-thu"
                 ),
             },
         }
