@@ -220,6 +220,20 @@ CLASSES = {"grib": S2sDatasetGRIB, "netcdf": S2sDatasetNETCDF, "zarr": S2sDatase
 
 
 class Info:
+    def __init__(self):
+        import os
+        import yaml
+
+        path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.yaml")
+        with open(path) as f:
+            self.config = yaml.load(f.read(), Loader=yaml.SafeLoader)
+        # print(self.config)
+
+    def _get_config(self, key, origin, realtime, param=None):
+        if param is None:
+            return self.config[origin][realtime][key]
+        return self.config[origin][realtime][param][key]
+
     def _get_alldates(self, origin, realtime):
         origin = ALIAS_ORIGIN[origin]
         # Not used (yet?) by climetlab
