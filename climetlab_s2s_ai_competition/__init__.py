@@ -26,8 +26,8 @@ PATTERN_NCDF = (
     "{url}/{data}/{dataset}-{fctype}-{origin}/{version}/netcdf/{parameter}-{date}.nc"
 )
 PATTERN_ZARR = (
-    # "{url}/{data}/{dataset}-{fctype}-{origin}/{version}/zarr/{parameter}.zarr"
-    "{url}/{data}/zarr/{parameter}.zarr"
+    "{url}/{data}/{dataset}-{fctype}-{origin}/{version}/zarr/{parameter}.zarr"
+    # "{url}/{data}/zarr/{version}/{parameter}.zarr"
 )
 
 ALIAS_ORIGIN = {
@@ -104,8 +104,28 @@ def ensure_naming_conventions(ds):
     if "number" in list(ds.coords):
         ds = ds.rename({"number": "realization"})
 
+    # added after building data v 0.1.43
+    if "depth_below_and_layer" not in list(ds.coords) and "depthBelowLandLayer" in list(
+        ds.coords
+    ):
+        ds = ds.rename({"depthBelowLandLayer": "depth_below_and_layer"})
+
+    # added after building data v 0.1.43
+    if "entire_atmosphere" not in list(ds.coords) and "entireAtmospheretime" in list(
+        ds.coords
+    ):
+        ds = ds.rename({"entireAtmosphere": "entire_atmosphere"})
+
+    # added after building data v 0.1.43
+    if "nominal_top" not in list(ds.coords) and "nominalTop" in list(ds.coords):
+        ds = ds.rename({"nominalTop": "nominal_top"})
+
     if "forecast_time" not in list(ds.coords) and "time" in list(ds.coords):
         ds = ds.rename({"time": "forecast_time"})
+
+    # added after building data v 0.1.43
+    if "valid_time" not in list(ds.variables) and "time" in list(ds.variables):
+        ds = ds.rename({"time": "valid_time"})
 
     if "step" in list(ds.coords) and "lead_time" not in list(ds.coords):
         ds = ds.rename({"step": "lead_time"})
@@ -130,6 +150,10 @@ def ensure_naming_conventions(ds):
     ):
         ds = ds.squeeze("height_above_ground")
         ds = ds.drop("height_above_ground")
+
+    # added after building data v 0.1.43
+    if "valid_time" in list(ds.variables) and not "valid_time" in list(ds.coords):
+        ds = ds.set_coords("valid_time")
 
     return ds
 
@@ -185,9 +209,7 @@ class S2sDatasetZARR(S2sDataset):
 
         request = self._make_request(*args, **kwargs)
         request.pop("date")
-        # TODO : remove these pop. leave only the date.
-        for k in ["dataset", "origin", "version", "fctype"]:
-            request.pop(k)
+
         urls = Pattern(PATTERN_ZARR).substitute(request)
 
         self.source = cml.load_source("zarr-s3", urls)
