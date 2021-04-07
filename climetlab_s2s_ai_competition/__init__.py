@@ -41,6 +41,7 @@ ALIAS_ORIGIN = {
 
 ALIAS_FCTYPE = {
     "hindcast": "hindcast",
+    "reforecast": "hindcast",
     "forecast": "forecast",
     "realtime": "forecast",
     "hc": "hindcast",
