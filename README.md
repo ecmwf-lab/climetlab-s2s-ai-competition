@@ -25,7 +25,7 @@ The dates in this dataset are from 1998 for the oldest, to 2019/12/31 for the mo
     - forecast_time : from , weekly every 7 days (every Thurday).
     - lead_time : 1 to 32 days
     - valid_time (forecast_time + lead_time): from 
-    - variables sm20, sm100, st20, st100 not available
+    - variables sm20, sm100, st20, st100 not available # can we have a list of variables below somewhere? data_var, longname, unit, description
     - `training-input/eccc` : [grib](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-input/0.1.50/grib/index.html) , netcdf, zarr
   - NCEP hindcast data in `training-input` dataset 
     - forecast_time : from 1999/01/07 to 2010/12/30, weekly every 7 days (every Thurday).
@@ -61,7 +61,7 @@ The `observations` dataset can be splitted into `observations/training` and `obs
     - From 2000/01/01 to 2019/12/31, weekly every 7 days (every Thurday).
     - This is the truth to evaluate and optimize the ML models during training.
   - `observations/forecast`
-    - From 2020/01/01 to 2021/12/31, weekly every 7 days (every Thurday).
+    - From 2020/01/01 to 2020/02/20, weekly every 7 days (every Thurday).
     - This a validation dataset and must **not** be used during training.
     - In theory, these data should not be disclosed during the competition, but the nature of the data make is possible to access it from other means. That is the reason why the code used for training model must be submitted along with the prediction (as a jupyter notebook) and the top ranked proposition will be reviewed by the organizing board. (_Question:To be discussed_)
 
@@ -71,8 +71,9 @@ _Question : Should we split this "observations" dataset into two dataset to make
 The `forecast-benchmark` dataset is an example of output of a ML model to be submitted.
 The "ML model" used to produce this dataset is very crude and consists in applying to the `forecast-input' a simple re-calibration of from the mean of the hindcast (training) data.
   - forecast_time : from 2020/01/01 to 2020/12/31, weekly every 7 days (every Thurday).
-  - lead_time : two values : 28 days and 35 days (To be discussed)
-  - valid_time (forecast_time + lead_time): from 2020/01/01 to 2020/12/31
+  - lead_time : 15 days and 42 days (To be discussed)  # I would provide daily inputs and only the verification with RPSS will use the bi-weekly lead_time
+  - #valid_time (forecast_time + lead_time): from 2020/01/01 to 2020/12/31
+  - forecast_time: from 2020/01/01 to 2020/12/31 # forecasts started in year 2020, but valid time from 2020/01/01 to 2021/02/20 #check exact date
 
 
 ## Direct download 
