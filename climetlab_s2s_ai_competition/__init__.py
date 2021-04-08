@@ -262,7 +262,8 @@ class Info:
                     start="2020-01-02", end="2020-12-31", freq="w-thu"
                 ),
                 "hindcast": pd.date_range(
-                    start="1999-01-07", end="2010-12-29", freq="w-thu"
+                    #start="1999-01-07", end="2010-12-29", freq="w-thu"
+                    start="2010-01-07", end="2010-12-29", freq="w-thu"
                 ),
             },
         }
