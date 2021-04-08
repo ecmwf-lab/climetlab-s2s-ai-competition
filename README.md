@@ -28,9 +28,9 @@ The dates in this dataset are from 1998 for the oldest, to 2019/12/31 for the mo
     - variables sm20, sm100, st20, st100 not available
     - `training-input/eccc` : [grib](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-input/0.1.50/grib/index.html) , netcdf, zarr
   - NCEP hindcast data in `training-input` dataset
-    - forecast_time : from 2010/01/01 to 2010/12/31, weekly every 7 days (every Thurday).
+    - forecast_time : from 1999/01/07 to 2010/12/30, weekly every 7 days (every Thurday).
     - lead_time : 1 to 44 days
-    - valid_time (forecast_time + lead_time): from 1998/01/01 to 2019/12/31
+    - valid_time (forecast_time + lead_time): from 1999/01/07 to 2011/02/11
     - variable "rsn" not available.
     - `training-input/ncep` : [grib](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-input/0.1.50/grib/index.html) , netcdf, zarr
 
@@ -40,8 +40,8 @@ These data are forecast data. This is used as the input for applying the ML mode
 The dates in this dataset are from 2020/01/01 for the oldest, to 2021/03/31 for the most recent. 
 Using data from earlier date that 2020/01/01 is also allowed during the prediction phase.
   - For all 3 models : 
-    - forecast_time : from 2020/01/01 to 2020/12/31, weekly every 7 days (every Thurday).
-    - valid_time (forecast_time + lead_time): from 2020/01/01 to 2020/12/31
+    - forecast_time : from 2020/01/02 to 2020/12/31, weekly every 7 days (every Thurday).
+    - valid_time (forecast_time + lead_time): from 2020/01/02 to 2020/12/31
   - ECMWF forecast data in `forecast-input` dataset
     - lead_time : 0 to 46 days
   - ECCC hindcast data in `forecast-input` dataset
