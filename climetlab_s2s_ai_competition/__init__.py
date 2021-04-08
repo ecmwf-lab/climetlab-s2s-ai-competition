@@ -10,6 +10,7 @@ from __future__ import annotations
 import climetlab as cml
 from climetlab import Dataset
 from climetlab.normalize import normalize_args
+from climetlab.utils.conventions import normalise_string
 
 # note : this version number is the plugin version. It has nothing to do with the version number of the dataset
 __version__ = "0.4.10"
@@ -155,6 +156,9 @@ def ensure_naming_conventions(ds):  # noqa C901
     # added after building data v 0.1.43
     if "valid_time" in list(ds.variables) and "valid_time" not in list(ds.coords):
         ds = ds.set_coords("valid_time")
+
+    for name in list(ds.variables):
+        ds = ds.rename({name: normalise_string(name, convention='cf')}) 
 
     return ds
 
