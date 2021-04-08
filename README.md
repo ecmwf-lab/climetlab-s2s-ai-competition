@@ -51,7 +51,7 @@ Using data from earlier date that 2020/01/01 is also allowed during the predicti
     - lead_time : 1 to 44 days
     - variable "rsn" not available.
   
-  _Question : cut the lead time to 32 days for all 3 models ?_
+  _Question : cut the lead time to 32 days for all 3 models ?_  
 
 ### Observations
 The `observations` dataset is the ground truth to compare with the ML model output and evaluate them. It consists in observation from instruments of temperature and total precipitation (TODO add more description). 
