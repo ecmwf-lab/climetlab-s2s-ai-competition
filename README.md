@@ -10,7 +10,7 @@ There are several ways to use the datasets. Either by direct download (wget, cur
 
 There are four datasets: `training-input`, `forecast-input`, `observations`, `forecast-benchmark`.
 
-- The `training-intput` dataset consists in data from three different models : ECMWF (ecmf), ECCC (cwao), NCEP (eccc).
+- The `training-input` dataset consists in data from three different models : ECMWF (ecmf), ECCC (cwao), NCEP (eccc).
 These data are hindcast data. This is used as the input for training the ML models.
 This dataset is available as grib, netcdf or zarr
 The dates in this dataset are from 1998 for the oldest, to 2019/12/31 for the most recent. 
