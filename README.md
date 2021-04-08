@@ -10,7 +10,7 @@ There are several ways to use the datasets. Either by direct download (wget, cur
 
 There are four datasets: `training-input`, `forecast-input`, `observations`, `forecast-benchmark`.
 
-1. The `training-input` dataset consists in data from three different models : ECMWF (ecmf), ECCC (cwao), NCEP (eccc).
+- The `training-input` dataset consists in data from three different models : ECMWF (ecmf), ECCC (cwao), NCEP (eccc).
 These data are hindcast data. This is used as the input for training the ML models.
 This dataset is available as grib, netcdf or zarr
 The dates in this dataset are from 1998 for the oldest, to 2019/12/31 for the most recent. 
@@ -32,7 +32,7 @@ The dates in this dataset are from 1998 for the oldest, to 2019/12/31 for the mo
     - variable "rsn" not available.
     - `training-input/ncep` : [grib](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-input/0.1.50/grib/index.html) , netcdf, zarr
 
-1. The `forecast-input` dataset consists also in data from three different models : ECMWF (ecmf), ECCC (cwao), NCEP (eccc), for different dates.
+- The `forecast-input` dataset consists also in data from three different models : ECMWF (ecmf), ECCC (cwao), NCEP (eccc), for different dates.
 These data are forecast data. This is used as the input for applying the ML models in oder to generate the ouput which is submitted for the competition.
 The dates in this dataset are from 2020/01/01 for the oldest, to 2021/03/31 for the most recent. 
 Using data from earlier date that 2020/01/01 is also allowed during the prediction phase.
@@ -50,7 +50,7 @@ Using data from earlier date that 2020/01/01 is also allowed during the predicti
   
   _Question : cut the lead time to 32 days for all 3 models ?_
 
-1. The `observations` dataset is the ground truth to compare with the ML model output and evaluate them. It consists in observation from instruments of temperature and total precipitation (TODO add more description). 
+- The `observations` dataset is the ground truth to compare with the ML model output and evaluate them. It consists in observation from instruments of temperature and total precipitation (TODO add more description). 
 Dates in the observation dataset are from 1998/01/01 to 2021/03/31.
 The `observations` dataset can be splitted into `observations/training` and `observations/forecast`: 
   - `observations/training`
@@ -63,7 +63,7 @@ The `observations` dataset can be splitted into `observations/training` and `obs
 
 _Question : Should we split this "observations" dataset into two dataset to make it clear to communicate : "do not use observation/forecast during training"._
 
-1. The `forecast-benchmark` dataset is an example of output of a ML model to be submitted.
+- The `forecast-benchmark` dataset is an example of output of a ML model to be submitted.
 The "ML model" used to produce this dataset is very crude and consists in applying to the `forecast-input' a simple re-calibration of from the mean of the hindcast (training) data.
   - forecast_time : from 2020/01/01 to 2020/12/31, weekly every 7 days (every Thurday).
   - lead_time : two values : 28 days and 35 days (To be discussed)
