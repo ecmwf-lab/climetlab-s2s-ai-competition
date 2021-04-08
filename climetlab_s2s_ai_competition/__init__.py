@@ -95,7 +95,7 @@ class S2sDataset(Dataset):
         return ensure_naming_conventions(ds)
 
 
-def ensure_naming_conventions(ds):
+def ensure_naming_conventions(ds):  # noqa C901
     # we may want also to add this too :
     # import cf2cdm # this is from the package cfgrib
     # ds = cf2cdm.translate_coords(ds, cf2cdm.CDS)
@@ -153,15 +153,14 @@ def ensure_naming_conventions(ds):
         ds = ds.drop("height_above_ground")
 
     # added after building data v 0.1.43
-    if "valid_time" in list(ds.variables) and not "valid_time" in list(ds.coords):
+    if "valid_time" in list(ds.variables) and "valid_time" not in list(ds.coords):
         ds = ds.set_coords("valid_time")
 
     return ds
 
 
 class S2sDatasetGRIB(S2sDataset):
-    def __init__(self, origin, version, dataset, fctype, *args, **kwargs):
-        super().__init__(origin, version, dataset, fctype)
+    def _load(self, *args, **kwargs):
         request = self._make_request(*args, **kwargs)
         self.source = cml.load_source("url-pattern", PATTERN_GRIB, request)
 
@@ -196,15 +195,13 @@ class S2sDatasetGRIB(S2sDataset):
 
 
 class S2sDatasetNETCDF(S2sDataset):
-    def __init__(self, origin, version, dataset, fctype, *args, **kwargs):
-        super().__init__(origin, version, dataset, fctype)
+    def _load(self, *args, **kwargs):
         request = self._make_request(*args, **kwargs)
         self.source = cml.load_source("url-pattern", PATTERN_NCDF, request)
 
 
 class S2sDatasetZARR(S2sDataset):
-    def __init__(self, origin, version, dataset, fctype, *args, **kwargs):
-        super().__init__(origin, version, dataset, fctype)
+    def _load(self, *args, **kwargs):
 
         from climetlab.utils.patterns import Pattern
 
@@ -222,6 +219,7 @@ CLASSES = {"grib": S2sDatasetGRIB, "netcdf": S2sDatasetNETCDF, "zarr": S2sDatase
 class Info:
     def __init__(self):
         import os
+
         import yaml
 
         path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.yaml")

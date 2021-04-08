@@ -5,15 +5,11 @@ def dataset(
     format="grib",
     origin="ecmwf",
     fctype="forecast",
-    version=DATA_VERSION,
-    *args,
-    **kwargs
+    version=DATA_VERSION
 ):
     return CLASSES[format](
         origin=origin,
         version=version,
         dataset="training-set",
-        fctype=fctype,
-        *args,
-        **kwargs
+        fctype=fctype
     )
