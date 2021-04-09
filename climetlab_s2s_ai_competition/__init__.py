@@ -21,13 +21,13 @@ URL = "https://storage.ecmwf.europeanweather.cloud"
 DATA = "s2s-ai-competition/data"
 
 PATTERN_GRIB = (
-    "{url}/{data}/{dataset}-{fctype}-{origin}/{version}/grib/{parameter}-{date}.grib"
+    "{url}/{data}/{dataset}/{origin}-{fctype}/{version}/grib/{origin}-{fctype}-{parameter}-{date}.grib"
 )
 PATTERN_NCDF = (
-    "{url}/{data}/{dataset}-{fctype}-{origin}/{version}/netcdf/{parameter}-{date}.nc"
+    "{url}/{data}/{dataset}/{origin}-{fctype}/{version}/netcdf/{origin}-{fctype}-{parameter}-{date}.nc"
 )
 PATTERN_ZARR = (
-    "{url}/{data}/{dataset}-{fctype}-{origin}/{version}/zarr/{parameter}.zarr"
+    "{url}/{data}/{dataset}/{origin}-{fctype}/{version}/zarr/{parameter}.zarr"
     # "{url}/{data}/zarr/{version}/{parameter}.zarr"
 )
 
@@ -38,6 +38,15 @@ ALIAS_ORIGIN = {
     "eccc": "eccc",
     "kwbc": "ncep",
     "ncep": "ncep",
+}
+
+ALIAS_MARSORIGIN = {
+    "ecmwf": "ecmf",
+    "ecmf": "ecmf",
+    "cwao": "cwao",
+    "eccc": "cwao",
+    "kwbc": "kwbc",
+    "ncep": "kwbc",
 }
 
 ALIAS_FCTYPE = {
@@ -233,13 +242,66 @@ class Info:
             self.config = yaml.load(f.read(), Loader=yaml.SafeLoader)
         # print(self.config)
 
+    def _get_cf_name(self, param):
+        return cml.utils.conventions.normalise_string(param, convention="cf")
+
+    def get_category_param(self, param):
+        if param in "2t/sst/sm20/sm100/st20/st100/ci/rsn/tcc/tcw".split("/"):
+            return "daily_average"
+        if param in "sp/msl/ttr/tp".split("/"):
+            return "instantaneous"
+        if param in "lsm".split("/"):
+            return "instantaneous_only_control"
+        if param in "u/v/gh/t".split("/"):
+            return "3d"
+        if param in "q".split("/"):
+            return "3dbis"
+        raise NotImplementedError(param)
+
     def _get_config_keys(self):
         return self.config.keys()
 
-    def _get_config(self, key, origin, fctype, param=None):
+    def _get_s3path_grib(self, origin, fctype, parameter, date, version=DATA_VERSION):
+        return PATTERN_GRIB.format(
+            url="s3://",
+            data="s2s-ai-competition/data",
+            dataset=self.dataset,
+            fctype=fctype, 
+            origin=origin,
+            version=version,
+            parameter=parameter,
+            date=date
+            ) 
+    def _get_s3path_netcdf(self, origin, fctype, parameter, date, version=DATA_VERSION):
+        return PATTERN_GRIB.format(
+            url="s3://",
+            data="s2s-ai-competition/data",
+            dataset=self.dataset,
+            fctype=fctype, 
+            origin=origin,
+            version=version,
+            parameter=parameter,
+            date=date
+            ) 
+
+    def _get_config(self, key, origin, fctype, date=None, param=None):
         origin_fctype = f'{origin}-{fctype}'
+
+        import pandas as pd
         if key == 'alldates':
             return self._get_alldates(origin, fctype)
+
+        if key == 'hdate':
+            if origin == 'ncep' and fctype == 'hindcast':
+                return pd.date_range(end=date, periods=12, freq=pd.DateOffset(years=1))
+
+        if key == 'marsdate':
+            if origin == 'ncep' and fctype == 'hindcast':
+                only_one_date = "2011-03-01"
+                return pd.to_datetime(only_one_date)
+            else:
+                return date
+
         if param is None:
             return self.config[origin_fctype][key]
         return self.config[origin_fctype][param][key]
