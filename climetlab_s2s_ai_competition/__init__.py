@@ -158,7 +158,7 @@ def ensure_naming_conventions(ds):  # noqa C901
         ds = ds.set_coords("valid_time")
 
     for name in list(ds.variables):
-        ds = ds.rename({name: normalise_string(name, convention='cf')}) 
+        ds = ds.rename({name: normalise_string(name, convention="cf")})
 
     return ds
 
@@ -263,11 +263,9 @@ class Info:
                 "forecast": pd.date_range(
                     start="2020-01-02", end="2020-12-31", freq="w-thu"
                 ),
+                # ncep hindcast has run only once, with date = 2011-03-01
                 "hindcast": pd.date_range(
-                    # start="1999-01-07", end="2010-12-29", freq="w-thu"
-                    start="2010-01-07",
-                    end="2010-12-29",
-                    freq="w-thu",
+                    start="2010-01-07", end="2010-12-29", freq="w-thu"
                 ),
             },
         }
