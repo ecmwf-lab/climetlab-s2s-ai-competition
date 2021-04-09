@@ -32,12 +32,12 @@ PATTERN_ZARR = (
 )
 
 ALIAS_ORIGIN = {
-    "ecmwf": "ecmf",
-    "ecmf": "ecmf",
-    "cwao": "cwao",
-    "eccc": "cwao",
-    "kwbc": "kwbc",
-    "ncep": "kwbc",
+    "ecmwf": "ecmwf",
+    "ecmf": "ecmwf",
+    "cwao": "eccc",
+    "eccc": "eccc",
+    "kwbc": "ncep",
+    "ncep": "ncep",
 }
 
 ALIAS_FCTYPE = {
@@ -221,55 +221,52 @@ CLASSES = {"grib": S2sDatasetGRIB, "netcdf": S2sDatasetNETCDF, "zarr": S2sDatase
 
 
 class Info:
-    def __init__(self):
+    def __init__(self, dataset):
         import os
 
         import yaml
 
-        path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.yaml")
+        self.dataset = dataset
+        filename = self.dataset.replace('-', '_') + '.yaml'
+        path = os.path.join(os.path.dirname(os.path.abspath(__file__)), filename)
         with open(path) as f:
             self.config = yaml.load(f.read(), Loader=yaml.SafeLoader)
         # print(self.config)
 
-    def _get_config(self, key, origin, realtime, param=None):
-        if param is None:
-            return self.config[origin][realtime][key]
-        return self.config[origin][realtime][param][key]
+    def _get_config_keys(self):
+        return self.config.keys()
 
-    def _get_alldates(self, origin, realtime):
+    def _get_config(self, key, origin, fctype, param=None):
+        origin_fctype = f'{origin}-{fctype}'
+        if key == 'alldates':
+            return self._get_alldates(origin, fctype)
+        if param is None:
+            return self.config[origin_fctype][key]
+        return self.config[origin_fctype][param][key]
+
+    def _get_alldates(self, origin, fctype):
         origin = ALIAS_ORIGIN[origin]
+        fctype = ALIAS_FCTYPE[fctype]
+        origin_fctype = f'{origin}-{fctype}'
         # Not used (yet?) by climetlab
         # TODO create a yaml instead ?
         import pandas as pd
 
         ALLDATES = {
-            "ecmf": {  # ecmwf
-                "forecast": pd.date_range(
-                    start="2020-01-02", end="2020-12-31", freq="w-thu"
-                ),
-                "hindcast": pd.date_range(
-                    start="2020-01-02", end="2020-12-31", freq="w-thu"
-                ),
-            },
-            "cwao": {  # eccc
-                "forecast": pd.date_range(
-                    start="2020-01-02", end="2020-12-31", freq="w-thu"
-                ),
-                "hindcast": pd.date_range(
-                    start="2020-01-02", end="2020-12-31", freq="w-thu"
-                ),
-            },
-            "kwbc": {  # ncep
-                "forecast": pd.date_range(
-                    start="2020-01-02", end="2020-12-31", freq="w-thu"
-                ),
-                # ncep hindcast has run only once, with date = 2011-03-01
-                "hindcast": pd.date_range(
-                    start="2010-01-07", end="2010-12-29", freq="w-thu"
-                ),
-            },
+            'forecast-input': {
+            'ecmwf-forecast': pd.date_range( start="2020-01-02", end="2020-12-31", freq="w-thu"),
+            'eccc-forecast':pd.date_range( start="2020-01-02", end="2020-12-31", freq="w-thu"),
+            'ncep-forecast':pd.date_range( start="2020-01-02", end="2020-12-31", freq="w-thu"),
+},
+'training-input': {
+            'ecmwf-hindcast':pd.date_range( start="2020-01-02", end="2020-12-31", freq="w-thu"),
+            'eccc-hindcast':pd.date_range( start="2020-01-02", end="2020-12-31", freq="w-thu"),
+            # ncep hindcast has run only once, with date = 2011-03-01
+            'ncep-hindcast':pd.date_range( start="2010-01-07", end="2010-12-29", freq="w-thu")
+}
         }
-        return ALLDATES[origin][realtime]
+        print(ALLDATES[self.dataset])
+        return ALLDATES[self.dataset][origin_fctype]
 
 
 def dataset(dataset, *args, **kwargs):
