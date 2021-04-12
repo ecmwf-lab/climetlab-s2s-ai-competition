@@ -14,8 +14,8 @@ There are four datasets: `training-input`, `forecast-input`, `observations`, `fo
 
 The `training-input` dataset consists in data from three different models : ECMWF (ecmf), ECCC (cwao), NCEP (eccc).
 These data are hindcast data. This is used as the input for training the ML models.
-This dataset is available as grib, netcdf or zarr
-The dates in this dataset are from 1998 for the oldest, to 2019/12/31 for the most recent. 
+This dataset is available as grib, netcdf or zarr.
+In this dataset, the data is available from 1998 for the oldest, to 2019/12/31 for the most recent. 
   - ECMWF hindcast data in `training-input` dataset
     - forecast_time : from 2000/01/01 to 2019/12/31, weekly every 7 days (every Thurday).
     - lead_time : 0 to 46 days
