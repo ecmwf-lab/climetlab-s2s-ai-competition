@@ -14,8 +14,7 @@ from climetlab.utils.conventions import normalise_string
 
 # note : this version number is the plugin version. It has nothing to do with the version number of the dataset
 __version__ = "0.4.10"
-DATA_VERSION = "0.1.43"
-
+DATA_VERSION = "0.1.50"
 
 URL = "https://storage.ecmwf.europeanweather.cloud"
 DATA = "s2s-ai-competition/data"
@@ -78,7 +77,7 @@ class S2sDataset(Dataset):
         self.version = version
         self.dataset = dataset
 
-    @normalize_args(parameter="variable-list(mars)", date="date-list(%Y%m%d)")
+    @normalize_args(parameter="variable-list(cf)", date="date-list(%Y%m%d)")
     def _make_request(
         self,
         date="20200102",

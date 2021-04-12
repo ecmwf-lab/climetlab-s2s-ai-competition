@@ -16,14 +16,18 @@ import climetlab as cml
 # import climetlab_s2s_ai_competition as addon
 
 
-def _generic_test_read(parameter, origin, format, date="20200102", fctype='hindcast'):
+# def _generic_test_read(parameter, origin, format, date="20200102", fctype='hindcast'):
+#    ds = cml.load_dataset(
+#        "s2s-ai-competition-training-input",
+def _generic_test_read(parameter, origin, format, date="20200102", fctype="forecast"):
     ds = cml.load_dataset(
-        "s2s-ai-competition-training-input",
+        "s2s-ai-competition-forecast-input",
         origin=origin,
         date=date,
         parameter=parameter,
         format=format,
         fctype=fctype,
+        #        version='0.1.50'
     )
     xds = ds.to_xarray()
     print(xds)
@@ -69,18 +73,18 @@ def test_read_2t_ecmwf_grib_cf_convention():
     _generic_test_read(parameter="t2m", origin="ecmwf", format="grib")
 
 
-# def test_read_2dates_ecwmf(): _generic_test_read(parameter='t2m', origin='ecmwf',
-# format='grib', date = ["20200102", "2020131"] )
-def test_read_2dates_cwao():
-    _generic_test_read(
-        parameter="t2m", origin="cwao", format="grib", date=["20200102", "20201231"]
-    )
+# not yet uploaded
+# def test_read_2dates_cwao():
+#    _generic_test_read(
+#        parameter="t2m", origin="cwao", format="grib", date=["20200102", "20201231"]
+#    )
 
 
-def test_read_2dates_kwbc():
-    _generic_test_read(
-        parameter="t2m", origin="kwbc", format="grib", date=["20200102", "20201231"]
-    )
+# not yet uploaded
+# def test_read_2dates_kwbc():
+#    _generic_test_read(
+#        parameter="t2m", origin="kwbc", format="grib", date=["20200102", "20201231"]
+#    )
 
 
 def test_read_hindcast_grib():
