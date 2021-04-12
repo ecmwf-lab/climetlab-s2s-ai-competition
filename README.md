@@ -96,39 +96,28 @@ The "ML model" used to produce this dataset is very crude and consists in applyi
   - valid_time (forecast_time + lead_time): from 2020/01/01 to 2020/12/31
 
 
-## Direct download 
-### GRIB format
+## Data download (GRIB or NetCDF)
 
-The list of GRIB files for the 'training-set-forecast-cwao' dataset can be found at : 
+The list of GRIB and files for the 'training-input' dataset can be found at : 
 
-https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-input/ecmwf/0.1.43/grib/index.html
+https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-input/{origin}-{fctype}/{version}/grib/{origin}-{fctype}-{parameter}-YYYYMMDD.grib
 
-The URLs are constructed according to the following pattern: TODO
+The list of NetCDF and files for the 'training-input' dataset can be found at : 
 
-
-- {param} is "t2m" for surface temperature at 2m, "tp" for total precipitation.
-- {date} is the date of retrieval following the YYYYMMDD format.
-
-Example to retrieve the file with wget :
-
-``` wget  TODO ```
+https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-input/{origin}-{fctype}/{version}/netcdf/{origin}-{fctype}-{parameter}-YYYYMMDD.nc
 
 
-### NetCDF format
+The URLs are constructed according to the following pattern: 
 
-
-The list of NETCDF files for the 'training-set-forecast-cwao' dataset can be found at : 
-
-https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-input/ecmwf/0.1.43/netcdf/index.html
-
-The URLs are constructed according to the following pattern: TODO
-
-- {param} is "t2m" for surface temperature at 2m, "tp" for total precipitation.
-- {date} is the date of retrieval following the YYYYMMDD format.
+- {origin} : ecmwf or eccc or ncep.
+- {fctype} : hindcast or forecast (hindcast or forecast).
+- {param} is "t2m" for surface temperature at 2m, "tp" for total precipitation using CF convention.
+- YYYYMMDD is the date of retrieval.
+- {version} is 0.1.50.
 
 Example to retrieve the file with wget :
 
-``` wget  TODO ```
+``` wget https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/forecast-input/ecmwf-forecast/0.1.50/grib/ecmwf-forecast-sp-20200116.grib ``` (132.8M )
 
 ### Zarr format (experimental).
 
@@ -141,7 +130,7 @@ Zarr urls are :
   -  `observations` : not available.
   -  `forecast-benchmark` : not available.
 
-## Use the data with climetlab (supports grib, netcdf and zarr)
+## Using climetlab to access the data (supports grib, netcdf and zarr)
 
 See the demo notebooks here (https://github.com/ecmwf-lab/climetlab-s2s-ai-competition/notebooks) : 
 - Netcdf [nbviewer](https://nbviewer.jupyter.org/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/notebooks/demo_netcdf.ipynb) [colab](https://colab.research.google.com/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/notebooks/demo_netcdf.ipynb)
@@ -155,6 +144,6 @@ The data are not uploaded. This is not working yet.
 
 !pip install climetlab climetlab_s2s_ai_competition
 import climetlab as cml
-ds = cml.load_dataset("s2s-ai-competition-training-set", origin="cwao", fctype="forecast", date="20200102", parameter='2t')
+ds = cml.load_dataset("s2s-ai-competition-training-input", origin="ecmwf", date="20200102", parameter='t2m')
 ds.to_xarray()
 ```
