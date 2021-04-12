@@ -285,9 +285,6 @@ class Info:
 
         import pandas as pd
 
-        if key == "alldates":
-            return self._get_alldates(origin, fctype)
-
         if key == "hdate":
             if origin == "ncep" and fctype == "hindcast":
                 return pd.date_range(end=date, periods=12, freq=pd.DateOffset(years=1))
@@ -302,48 +299,6 @@ class Info:
         if param is None:
             return self.config[origin_fctype][key]
         return self.config[origin_fctype][param][key]
-
-    def _get_alldates(self, origin, fctype):
-        origin = ALIAS_ORIGIN[origin]
-        fctype = ALIAS_FCTYPE[fctype]
-        origin_fctype = f"{origin}-{fctype}"
-        # Not used (yet?) by climetlab
-        # TODO create a yaml instead ?
-        import pandas as pd
-
-        ALLDATES = {
-            "forecast-input": {
-                "ecmwf-forecast": pd.date_range(
-                    start="2020-01-02", end="2020-12-31", freq="w-thu"
-                ),
-                "eccc-forecast": pd.date_range(
-                    start="2020-01-02", end="2020-12-31", freq="w-thu"
-                ),
-                "ncep-forecast": pd.date_range(
-                    start="2020-01-02", end="2020-12-31", freq="w-thu"
-                ),
-            },
-            "training-input": {
-                "ecmwf-hindcast": pd.date_range(
-                    start="2020-01-02", end="2020-12-31", freq="w-thu"
-                ),
-                "eccc-hindcast": pd.date_range(
-                    start="2020-01-02", end="2020-12-31", freq="w-thu"
-                ),
-                # ncep hindcast has run only once, with date = 2011-03-01
-                "ncep-hindcast": pd.date_range(
-                    start="2010-01-07", end="2010-12-29", freq="w-thu"
-                ),
-            },
-            "ncep-hindcast-only": {
-                # ncep hindcast has run only once, with date = 2011-03-01
-                "ncep-hindcast": pd.date_range(
-                    start="2010-01-07", end="2010-12-29", freq="w-thu"
-                )
-            },
-        }
-        print(ALLDATES[self.dataset])
-        return ALLDATES[self.dataset][origin_fctype]
 
 
 def dataset(dataset, *args, **kwargs):
