@@ -40,7 +40,8 @@ In this dataset, the data is available from 1998 for the oldest, to 2019/12/31 f
     - variable "rsn" not available.
     - `training-input/ncep` : 
   [grib](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-input/ncep-hindcast/0.1.50/grib/index.html),
-  [netcdf](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-input/ncep-hindcast/0.1.50/netcdf/index.html),, zarr
+  [netcdf](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/training-input/ncep-hindcast/0.1.50/netcdf/index.html),
+  zarr
 
 ### Forecast input
 The `forecast-input` dataset consists also in data from three different models : ECMWF (ecmf), ECCC (cwao), NCEP (eccc), for different dates.
@@ -52,17 +53,21 @@ Using data from earlier date that 2020/01/01 is also allowed during the predicti
     - valid_time (forecast_time + lead_time): from 2020/01/02 to 2020/12/31
   - ECMWF forecast data in `forecast-input` dataset
     - lead_time : 0 to 46 days
+    - `forecast-input/ecmwf`
   [grib](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/forecast-input/ecmwf-forecast/0.1.50/grib/index.html),
-  [netcdf](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/forecast-input/ecmwf-forecast/0.1.50/netcdf/index.html),zarr
+  [netcdf](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/forecast-input/ecmwf-forecast/0.1.50/netcdf/index.html),
+  zarr
   - ECCC hindcast data in `forecast-input` dataset
     - lead_time : 1 to 32 days
     - variables sm20, sm100, st20, st100 not available
+    - `forecast-input/eccc` 
   [grib](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/forecast-input/eccc-forecast/0.1.50/grib/index.html),
-  [netcdf](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/forecast-input/eccc-forecast/0.1.50/netcdf/index.html), zarr
+  [netcdf](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/forecast-input/eccc-forecast/0.1.50/netcdf/index.html),
+  zarr
   - NCEP hindcast data in `forecast-input` dataset
     - lead_time : 1 to 44 days
     - variable "rsn" not available.
-    - 
+    - `forecast-input/ncep`
   [grib](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/forecast-input/ncep-forecast/0.1.50/grib/index.html),
   [netcdf](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/forecast-input/ncep-forecast/0.1.50/netcdf/index.html),
  zarr
