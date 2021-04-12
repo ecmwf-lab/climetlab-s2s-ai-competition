@@ -20,12 +20,8 @@ DATA_VERSION = "0.1.43"
 URL = "https://storage.ecmwf.europeanweather.cloud"
 DATA = "s2s-ai-competition/data"
 
-PATTERN_GRIB = (
-    "{url}/{data}/{dataset}/{origin}-{fctype}/{version}/grib/{origin}-{fctype}-{parameter}-{date}.grib"
-)
-PATTERN_NCDF = (
-    "{url}/{data}/{dataset}/{origin}-{fctype}/{version}/netcdf/{origin}-{fctype}-{parameter}-{date}.nc"
-)
+PATTERN_GRIB = "{url}/{data}/{dataset}/{origin}-{fctype}/{version}/grib/{origin}-{fctype}-{parameter}-{date}.grib"
+PATTERN_NCDF = "{url}/{data}/{dataset}/{origin}-{fctype}/{version}/netcdf/{origin}-{fctype}-{parameter}-{date}.nc"
 PATTERN_ZARR = (
     "{url}/{data}/{dataset}/{origin}-{fctype}/{version}/zarr/{parameter}.zarr"
     # "{url}/{data}/zarr/{version}/{parameter}.zarr"
@@ -236,7 +232,7 @@ class Info:
         import yaml
 
         self.dataset = dataset
-        filename = self.dataset.replace('-', '_') + '.yaml'
+        filename = self.dataset.replace("-", "_") + ".yaml"
         path = os.path.join(os.path.dirname(os.path.abspath(__file__)), filename)
         with open(path) as f:
             self.config = yaml.load(f.read(), Loader=yaml.SafeLoader)
@@ -266,37 +262,39 @@ class Info:
             url="s3://",
             data="s2s-ai-competition/data",
             dataset=self.dataset,
-            fctype=fctype, 
+            fctype=fctype,
             origin=origin,
             version=version,
             parameter=parameter,
-            date=date
-            ) 
+            date=date,
+        )
+
     def _get_s3path_netcdf(self, origin, fctype, parameter, date, version=DATA_VERSION):
         return PATTERN_GRIB.format(
             url="s3://",
             data="s2s-ai-competition/data",
             dataset=self.dataset,
-            fctype=fctype, 
+            fctype=fctype,
             origin=origin,
             version=version,
             parameter=parameter,
-            date=date
-            ) 
+            date=date,
+        )
 
     def _get_config(self, key, origin, fctype, date=None, param=None):
-        origin_fctype = f'{origin}-{fctype}'
+        origin_fctype = f"{origin}-{fctype}"
 
         import pandas as pd
-        if key == 'alldates':
+
+        if key == "alldates":
             return self._get_alldates(origin, fctype)
 
-        if key == 'hdate':
-            if origin == 'ncep' and fctype == 'hindcast':
+        if key == "hdate":
+            if origin == "ncep" and fctype == "hindcast":
                 return pd.date_range(end=date, periods=12, freq=pd.DateOffset(years=1))
 
-        if key == 'marsdate':
-            if origin == 'ncep' and fctype == 'hindcast':
+        if key == "marsdate":
+            if origin == "ncep" and fctype == "hindcast":
                 only_one_date = "2011-03-01"
                 return pd.to_datetime(only_one_date)
             else:
@@ -309,23 +307,41 @@ class Info:
     def _get_alldates(self, origin, fctype):
         origin = ALIAS_ORIGIN[origin]
         fctype = ALIAS_FCTYPE[fctype]
-        origin_fctype = f'{origin}-{fctype}'
+        origin_fctype = f"{origin}-{fctype}"
         # Not used (yet?) by climetlab
         # TODO create a yaml instead ?
         import pandas as pd
 
         ALLDATES = {
-            'forecast-input': {
-            'ecmwf-forecast': pd.date_range( start="2020-01-02", end="2020-12-31", freq="w-thu"),
-            'eccc-forecast':pd.date_range( start="2020-01-02", end="2020-12-31", freq="w-thu"),
-            'ncep-forecast':pd.date_range( start="2020-01-02", end="2020-12-31", freq="w-thu"),
-},
-'training-input': {
-            'ecmwf-hindcast':pd.date_range( start="2020-01-02", end="2020-12-31", freq="w-thu"),
-            'eccc-hindcast':pd.date_range( start="2020-01-02", end="2020-12-31", freq="w-thu"),
-            # ncep hindcast has run only once, with date = 2011-03-01
-            'ncep-hindcast':pd.date_range( start="2010-01-07", end="2010-12-29", freq="w-thu")
-}
+            "forecast-input": {
+                "ecmwf-forecast": pd.date_range(
+                    start="2020-01-02", end="2020-12-31", freq="w-thu"
+                ),
+                "eccc-forecast": pd.date_range(
+                    start="2020-01-02", end="2020-12-31", freq="w-thu"
+                ),
+                "ncep-forecast": pd.date_range(
+                    start="2020-01-02", end="2020-12-31", freq="w-thu"
+                ),
+            },
+            "training-input": {
+                "ecmwf-hindcast": pd.date_range(
+                    start="2020-01-02", end="2020-12-31", freq="w-thu"
+                ),
+                "eccc-hindcast": pd.date_range(
+                    start="2020-01-02", end="2020-12-31", freq="w-thu"
+                ),
+                # ncep hindcast has run only once, with date = 2011-03-01
+                "ncep-hindcast": pd.date_range(
+                    start="2010-01-07", end="2010-12-29", freq="w-thu"
+                ),
+            },
+            "ncep-hindcast-only": {
+                # ncep hindcast has run only once, with date = 2011-03-01
+                "ncep-hindcast": pd.date_range(
+                    start="2010-01-07", end="2010-12-29", freq="w-thu"
+                )
+            },
         }
         print(ALLDATES[self.dataset])
         return ALLDATES[self.dataset][origin_fctype]
