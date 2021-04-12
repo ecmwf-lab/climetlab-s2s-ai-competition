@@ -16,14 +16,14 @@ import climetlab as cml
 # import climetlab_s2s_ai_competition as addon
 
 
-def _generic_test_read(parameter, origin, format, date="20200102", hindcast=False):
+def _generic_test_read(parameter, origin, format, date="20200102", fctype='hindcast'):
     ds = cml.load_dataset(
-        "s2s-ai-competition-training-set",
+        "s2s-ai-competition-training-input",
         origin=origin,
         date=date,
         parameter=parameter,
         format=format,
-        hindcast=hindcast,
+        fctype=fctype,
     )
     xds = ds.to_xarray()
     print(xds)

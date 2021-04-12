@@ -49,8 +49,10 @@ setuptools.setup(
     zip_safe=True,
     entry_points={
         "climetlab.datasets": [
-            "s2s-ai-competition-training-set = climetlab_s2s_ai_competition.training_set",
-            # "s2s-ai-competition-reference-set = climetlab_s2s_ai_competition.reference_set",
+            "s2s-ai-competition-training-input = climetlab_s2s_ai_competition.training_input",
+            "s2s-ai-competition-forecast-input = climetlab_s2s_ai_competition.forecast_input",
+            # "s2s-ai-competition-benchmark = climetlab_s2s_ai_competition.benchmark",
+            # "s2s-ai-competition-observations = climetlab_s2s_ai_competition.observations",
         ]
     },
     keywords="meteorology",

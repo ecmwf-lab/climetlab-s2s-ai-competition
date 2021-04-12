@@ -270,7 +270,7 @@ class Info:
         )
 
     def _get_s3path_netcdf(self, origin, fctype, parameter, date, version=DATA_VERSION):
-        return PATTERN_GRIB.format(
+        return PATTERN_NCDF.format(
             url="s3://",
             data="s2s-ai-competition/data",
             dataset=self.dataset,
