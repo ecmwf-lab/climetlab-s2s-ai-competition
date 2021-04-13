@@ -9,23 +9,22 @@
 # nor does it submit to any jurisdiction.
 #
 
-import climetlab as cml
-
-
-def test_read_zarr():
-    for fctype in ["hindcast"]:  # ["forecast", "hindcast"]:
-        for origin in ["ecmwf"]:  # ["cwao", "ecmwf", "kwbc"]:
-            ds = cml.load_dataset(
-                "s2s-ai-competition-training-input",
-                origin=origin,
-                fctype=fctype,
-                format="zarr",
-                parameter="2t",
-            )
-            xds = ds.to_xarray()
-            print(xds)
-
-
-if __name__ == "__main__":
-    #    test_direct_read_zarr()
-    test_read_zarr()
+# import climetlab as cml
+#
+#
+# def test_read_zarr():
+#    for fctype in ["hindcast"]:  # ["forecast", "hindcast"]:
+#        for origin in ["ecmwf"]:  # ["cwao", "ecmwf", "kwbc"]:
+#            ds = cml.load_dataset(
+#                "s2s-ai-competition-training-input",
+#                origin=origin,
+#                fctype=fctype,
+#                format="zarr",
+#                parameter="2t",
+#            )
+#            xds = ds.to_xarray()
+#            print(xds)
+#
+#
+# if __name__ == "__main__":
+#    test_read_zarr()
