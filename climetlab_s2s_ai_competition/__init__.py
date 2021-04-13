@@ -240,6 +240,7 @@ class Info:
     def _get_cf_name(self, param):
         return cml.utils.conventions.normalise_string(param, convention="cf")
 
+    # TODO add _
     def get_category_param(self, param):
         if param in "2t/sst/sm20/sm100/st20/st100/ci/rsn/tcc/tcw".split("/"):
             return "daily_average"
