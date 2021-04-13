@@ -13,10 +13,10 @@ import climetlab as cml
 
 
 def test_read_zarr():
-    for fctype in ["hindcast"]:  # ["forecast", "hindcast"]:
+    for fctype in ["forecast"]:  # ["forecast", "hindcast"]:
         for origin in ["ecmwf"]:  # ["cwao", "ecmwf", "kwbc"]:
             ds = cml.load_dataset(
-                "s2s-ai-competition-training-input",
+                "s2s-ai-competition-forecast-input",
                 origin=origin,
                 fctype=fctype,
                 format="zarr",
