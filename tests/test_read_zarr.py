@@ -12,7 +12,10 @@
 # import climetlab as cml
 #
 #
-# def test_read_zarr():
+def test_read_zarr():
+    return
+
+
 #    for fctype in ["hindcast"]:  # ["forecast", "hindcast"]:
 #        for origin in ["ecmwf"]:  # ["cwao", "ecmwf", "kwbc"]:
 #            ds = cml.load_dataset(
