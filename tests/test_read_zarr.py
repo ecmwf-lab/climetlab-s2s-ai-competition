@@ -9,9 +9,9 @@
 # nor does it submit to any jurisdiction.
 #
 
-# import climetlab as cml
-#
-#
+import climetlab as cml
+
+
 def test_read_zarr():
     return
 
