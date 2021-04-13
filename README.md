@@ -72,8 +72,6 @@ The forecast start dates in this dataset are from 2020/01/02 to 2020/12/31.
   [grib](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/forecast-input/ncep-forecast/0.1.50/grib/index.html),
   [netcdf](https://storage.ecmwf.europeanweather.cloud/s2s-ai-competition/data/forecast-input/ncep-forecast/0.1.50/netcdf/index.html),
  zarr
- 
-  _Question : cut the lead time to 32 days for all 3 models ?_
 
 ### Observations
 The `observations` dataset is the ground truth to compare with the ML model output and evaluate them. It consists in observation from instruments of temperature and total precipitation (TODO add more description). 
@@ -151,14 +149,14 @@ Zarr urls are :
 ## Using climetlab to access the data (supports grib, netcdf and zarr)
 
 See the demo notebooks here (https://github.com/ecmwf-lab/climetlab-s2s-ai-competition/notebooks) : 
-- Netcdf [nbviewer](https://nbviewer.jupyter.org/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/notebooks/demo_netcdf.ipynb) [colab](https://colab.research.google.com/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/notebooks/demo_netcdf.ipynb)
-- Grib [nbviewer](https://nbviewer.jupyter.org/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/notebooks/demo_grib.ipynb) [colab](https://colab.research.google.com/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/notebooks/demo_grib.ipynb)
-- Zarr [nbviewer](https://nbviewer.jupyter.org/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/notebooks/demo_zarr.ipynb) [colab](https://colab.research.google.com/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/notebooks/demo_zarr.ipynb)  <span style="color:red;">(experimental)</span> .
+- Netcdf [nbviewer](https://nbviewer.jupyter.org/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/notebooks/demo_netcdf.ipynb) [colab](https://colab.research.google.com/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/notebooks/demo_netcdf.ipynb)(TODO update the notebooks)
+- Grib [nbviewer](https://nbviewer.jupyter.org/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/notebooks/demo_grib.ipynb) [colab](https://colab.research.google.com/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/notebooks/demo_grib.ipynb)(TODO update the notebooks)
+- Zarr [nbviewer](https://nbviewer.jupyter.org/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/notebooks/demo_zarr.ipynb) [colab](https://colab.research.google.com/github/ecmwf-lab/climetlab-s2s-ai-competition/blob/master/notebooks/demo_zarr.ipynb)  <span style="color:red;">(experimental)</span> .(TODO update the notebooks)
 
 The climetlab python package allows easy access to the data with a few lines of code such as:
 ```
 
-The data are not uploaded. This is not working yet.
+Full data not uploaded. Only two dates available for now.
 
 !pip install climetlab climetlab_s2s_ai_competition
 import climetlab as cml
