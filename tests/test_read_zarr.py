@@ -13,17 +13,18 @@ import climetlab as cml
 
 
 def test_read_zarr():
-    for fctype in ["forecast"]:  # ["forecast", "hindcast"]:
-        for origin in ["ecmwf"]:  # ["cwao", "ecmwf", "kwbc"]:
-            ds = cml.load_dataset(
-                "s2s-ai-competition-forecast-input",
-                origin=origin,
-                fctype=fctype,
-                format="zarr",
-                parameter="2t",
-            )
-            xds = ds.to_xarray()
-            print(xds)
+    for parameter in ["2t"] + ["t2m"]:  # ["cwao", "ecmwf", "kwbc"]:
+        for fctype in ["forecast"]:  # ["forecast", "hindcast"]:
+            for origin in ["ecmwf"]:  # ["cwao", "ecmwf", "kwbc"]:
+                ds = cml.load_dataset(
+                    "s2s-ai-competition-forecast-input",
+                    origin=origin,
+                    fctype=fctype,
+                    format="zarr",
+                    parameter=parameter,
+                )
+                xds = ds.to_xarray()
+                print(xds)
 
 
 if __name__ == "__main__":
