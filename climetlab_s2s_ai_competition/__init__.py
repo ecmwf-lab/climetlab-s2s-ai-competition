@@ -21,10 +21,7 @@ DATA = "s2s-ai-competition/data"
 
 PATTERN_GRIB = "{url}/{data}/{dataset}/{origin}-{fctype}/{version}/grib/{origin}-{fctype}-{parameter}-{date}.grib"
 PATTERN_NCDF = "{url}/{data}/{dataset}/{origin}-{fctype}/{version}/netcdf/{origin}-{fctype}-{parameter}-{date}.nc"
-PATTERN_ZARR = (
-    "{url}/{data}/{dataset}/{origin}-{fctype}/{version}/zarr/{parameter}.zarr"
-    # "{url}/{data}/zarr/{version}/{parameter}.zarr"
-)
+PATTERN_ZARR = "{url}/{data}/{dataset}/{origin}-{fctype}/{version}/zarr/{parameter}.zarr"
 
 ALIAS_ORIGIN = {
     "ecmwf": "ecmwf",
@@ -235,7 +232,6 @@ class Info:
         path = os.path.join(os.path.dirname(os.path.abspath(__file__)), filename)
         with open(path) as f:
             self.config = yaml.load(f.read(), Loader=yaml.SafeLoader)
-        # print(self.config)
 
     def _get_cf_name(self, param):
         return cml.utils.conventions.normalise_string(param, convention="cf")
@@ -257,9 +253,9 @@ class Info:
     def _get_config_keys(self):
         return self.config.keys()
 
-    def _get_s3path_grib(self, origin, fctype, parameter, date, version=DATA_VERSION):
+    def _get_s3path_grib(self, origin, fctype, parameter, date, url="s3://", version=DATA_VERSION):
         return PATTERN_GRIB.format(
-            url="s3://",
+            url=url,
             data="s2s-ai-competition/data",
             dataset=self.dataset,
             fctype=fctype,
@@ -269,9 +265,9 @@ class Info:
             date=date,
         )
 
-    def _get_s3path_netcdf(self, origin, fctype, parameter, date, version=DATA_VERSION):
+    def _get_s3path_netcdf(self, origin, fctype, parameter, date, url="s3://", version=DATA_VERSION):
         return PATTERN_NCDF.format(
-            url="s3://",
+            url=url,
             data="s2s-ai-competition/data",
             dataset=self.dataset,
             fctype=fctype,
